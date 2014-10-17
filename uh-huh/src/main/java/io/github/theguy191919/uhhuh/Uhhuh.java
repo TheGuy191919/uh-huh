@@ -11,12 +11,15 @@ import io.github.theguy191919.udpft.net.ByteSender;
 import io.github.theguy191919.udpft.protocol.Protocol;
 import io.github.theguy191919.udpft.protocol.Protocol0;
 import io.github.theguy191919.udpft.protocol.ProtocolEventListener;
+import io.github.theguy191919.uhhuh.console.Console;
 
 /**
  *
  * @author Yiwen Dong
  */
 public class Uhhuh implements ProtocolEventListener{
+    
+    public static Console console = new Console();
     
     public void methods(){
         ByteSender sender = new ByteSender();
@@ -38,6 +41,7 @@ public class Uhhuh implements ProtocolEventListener{
 
     @Override
     public void gotEvent(Protocol protocol) {
+        console.logger.log(protocol.getContent(), this, 3);
         System.out.println(protocol.getContent());
     }
 }
