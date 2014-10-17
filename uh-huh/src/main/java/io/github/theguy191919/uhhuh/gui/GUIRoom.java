@@ -8,10 +8,12 @@ package io.github.theguy191919.uhhuh.gui;
 import io.github.theguy191919.udpft.net.ByteReceiver;
 import io.github.theguy191919.udpft.net.ByteSender;
 import io.github.theguy191919.udpft.protocol.Protocol;
+import io.github.theguy191919.udpft.protocol.Protocol2;
 import io.github.theguy191919.udpft.protocol.ProtocolEventHandler;
 import io.github.theguy191919.udpft.protocol.ProtocolEventListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -64,18 +66,39 @@ public class GUIRoom implements Runnable, ProtocolEventListener{
     public void start(){
         this.sender.joinGroup();
         this.receiver.startReceiver();
+        this.running = true;
         this.thread = new Thread(this, "GUIRoom " + this.roomName);
         this.thread.start();
     }
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //every 30 second sent a message
+        while(running){
+            long startTime = System.currentTimeMillis();
+            Protocol ping = new Protocol2();
+            ping.setSender(this.parentChat.userName);
+            this.sender.send(ping.returnByteArray());
+            try {
+                Thread.sleep(30000 - (System.currentTimeMillis() - startTime));
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Contact.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     public void stop(){
-        
+        //need to stop contacts too
+        this.running = false;
+        Iterator iterator = this.mapOfContact.entrySet().iterator();
+        while(iterator.hasNext()){
+            Map.Entry paires = (Map.Entry<String, Contact>)iterator.next();
+            ((Contact)(paires.getValue())).stop();
+            iterator.remove();
+        }
+        this.mapOfContact.clear();
+        this.receiver.stopReveiver();
         this.thread = null;
     }
 
@@ -97,7 +120,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener{
         
     }
     
-    private void removeTab(){
+    public void removeTab(){
         
     }
     

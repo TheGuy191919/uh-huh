@@ -6,10 +6,9 @@
 package io.github.theguy191919.uhhuh.gui;
 
 /**
- * This is the basic chat gui where rooms can be created.
- * Called by main class
+ *
  * @author evan__000
  */
-public class GUIChat {
-    public String userName;
+public class PublicRoom {
+    
 }

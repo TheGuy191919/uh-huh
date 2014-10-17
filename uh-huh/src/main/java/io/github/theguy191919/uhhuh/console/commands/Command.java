@@ -17,12 +17,18 @@ import java.util.logging.Logger;
  * @author evan__000
  */
 public abstract class Command {
-    public String name;
-    public List<String> args = new LinkedList();
+    
+    private String commandName;
+    private List<String> args = new LinkedList();
+    
     private static Map<String, Class<? extends Command>> listOfCommands = new HashMap();
     
+    protected static void registerCommand(String name, Class<? extends Command> classThatExtendsCommand){
+        listOfCommands.put(name, classThatExtendsCommand);
+    }
+    
     public static Command getCommand(String command){
-        command.trim();
+        command = command.toLowerCase().trim();
         command = " " + command + " ";
         List<Integer> spacepos = new LinkedList();
         for(int a = 0; a < command.length(); a++){
@@ -33,13 +39,30 @@ public abstract class Command {
         Command commandObj = null;
         try {
             commandObj = listOfCommands.get(command.substring(spacepos.get(0) + 1, spacepos.get(1)).trim()).newInstance();
-            commandObj.name = command.substring(spacepos.get(0) + 1, spacepos.get(1)).trim();
+            //commandObj.setCommandName(command.substring(spacepos.get(0) + 1, spacepos.get(1)).trim());
+            for(int a = 1; a < spacepos.size() - 1; a++){
+                commandObj.getArgsList().add(command.substring(spacepos.get(a) + 1, spacepos.get(a + 1)).trim());
+            }
+            
+            commandObj.trigged();
+            
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Command.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for(int a = 1; a < spacepos.size() - 1; a++){
-            commandObj.args.add(command.substring(spacepos.get(a) + 1, spacepos.get(a + 1)).trim());
-        }
         return commandObj;
     }
+    
+    public String getCommandName(){
+        return this.commandName;
+    }
+    
+    public void setCommandName(String name){
+        this.commandName = name;
+    }
+    
+    public List<String> getArgsList(){
+        return this.args;
+    }
+    
+    abstract void trigged();
 }

@@ -32,13 +32,13 @@ public class Logger {
     public void log(String message, Object object){
         int logLevel = 3;
         if(logLevel <= this.logLevel){
-            System.out.println(this.getFormatedTime() + ": " + object.getClass() + "[" + levelName[logLevel] + "]: " + message);
+            System.out.println(this.getFormatedTime() + ": " + object.getClass().getName() + "[" + levelName[logLevel] + "]: " + message);
         }
     }
     
     public void log(String message, Object object, int logLevel){
         if(logLevel <= this.logLevel){
-            System.out.println(this.getFormatedTime() + ": " + object.getClass() + "[LOW]: " + message);
+            System.out.println(this.getFormatedTime() + ": " + object.getClass() + "[" + levelName[logLevel] + "]: " + message);
         }
     }
 }

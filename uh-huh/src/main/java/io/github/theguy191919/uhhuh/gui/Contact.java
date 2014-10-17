@@ -42,7 +42,7 @@ public class Contact implements Runnable{
     public void run() {
         while(running){
             long startTime = System.currentTimeMillis();
-            if(this.lastPringTime - (int)(System.currentTimeMillis() / 1000) > 120){
+            if((int)(System.currentTimeMillis() / 1000) - this.lastPringTime > 120){
                 this.stop();
             }
             try {
@@ -54,7 +54,9 @@ public class Contact implements Runnable{
     }
     
     public void stop(){
+        this.running = false;
         this.parentRoom.removeContact(this);
+        this.thread = null;
     }
     
 }
