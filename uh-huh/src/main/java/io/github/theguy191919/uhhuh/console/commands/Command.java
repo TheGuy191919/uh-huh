@@ -21,9 +21,14 @@ public abstract class Command {
     private String commandName;
     private List<String> args = new LinkedList();
     
-    private static Map<String, Class<? extends Command>> listOfCommands = new HashMap();
+    private static final Map<String, Class<? extends Command>> listOfCommands;
+    static{
+        listOfCommands = new HashMap<>();
+        Command.registerCommand("test", CommandTest.class);
+        Command.registerCommand("stop", CommandStop.class);
+    }
     
-    protected static void registerCommand(String name, Class<? extends Command> classThatExtendsCommand){
+    public static void registerCommand(String name, Class<? extends Command> classThatExtendsCommand){
         listOfCommands.put(name, classThatExtendsCommand);
     }
     

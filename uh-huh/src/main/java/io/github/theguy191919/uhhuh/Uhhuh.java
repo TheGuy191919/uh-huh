@@ -35,6 +35,7 @@ public class Uhhuh implements ProtocolEventListener{
     }
     
     public static void main(String[] args){
+        console.start();
         Uhhuh self = new Uhhuh();
         self.methods();
     }

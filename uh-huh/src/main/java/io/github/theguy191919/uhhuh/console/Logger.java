@@ -21,6 +21,14 @@ public class Logger {
         "HOW", "HIGH", "MEDIUM", "LOW", "DEBUG"
     };
     
+    public Logger(){
+        
+    }
+    
+    public Logger(int logLevel){
+        this.logLevel = logLevel;
+    }
+    
     public void setLogLevel(int logLevel){
         this.logLevel = logLevel;
     }

@@ -5,21 +5,24 @@
  */
 package io.github.theguy191919.uhhuh.console.commands;
 
+import io.github.theguy191919.uhhuh.Uhhuh;
+
 /**
- * Name is stop
+ *
  * @author evan__000
  */
-public class CommandStop extends Command{
+public class CommandTest extends Command{
+    
 //    static{
-//        Command.registerCommand("stop", CommandStop.class);
+//        Command.registerCommand("test", CommandStop.class);
 //    }
     
-    public CommandStop(){
-        this.setCommandName("stop");
+    public CommandTest(){
+        this.setCommandName("test");
     }
 
     @Override
     void trigged() {
-        
+        Uhhuh.console.logger.log("Testing" + super.getArgsList().get(0), this, 4);
     }
 }

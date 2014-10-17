@@ -5,6 +5,7 @@
  */
 package io.github.theguy191919.uhhuh.console;
 
+import io.github.theguy191919.uhhuh.console.commands.Command;
 import java.util.Scanner;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Scanner;
  */
 public class Console implements Runnable{
     
-   public Logger logger = new Logger();
+   public Logger logger = new Logger(4);
    private Thread thread;
    private Scanner scanner = new Scanner(System.in);
    
@@ -26,7 +27,8 @@ public class Console implements Runnable{
    
     @Override
     public void run() {
-        String command = scanner.next();
+        String command = scanner.nextLine();
+        Command.getCommand(command);
     }
     
     public void stop(){
