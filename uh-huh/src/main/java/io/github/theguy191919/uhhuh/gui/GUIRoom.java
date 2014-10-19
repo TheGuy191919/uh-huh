@@ -18,13 +18,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.*;
 
 /**
  *A room containing Contacts.
  * this is its own thread.
  * @author evan__000
  */
-public class GUIRoom implements Runnable, ProtocolEventListener{
+public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab{
     
     public Thread thread;
     public String roomName;
@@ -34,6 +35,8 @@ public class GUIRoom implements Runnable, ProtocolEventListener{
     private boolean visible;
     private Map<String, Contact> mapOfContact = new ConcurrentHashMap<>();
     private boolean running;
+    
+    private JPanel jPanel = new JPanel();
     
     public GUIRoom(String roomName, GUIChat parentChat, String ip){
         this.roomName = roomName;
@@ -136,5 +139,10 @@ public class GUIRoom implements Runnable, ProtocolEventListener{
     public void removeContact(Contact contact){
         this.mapOfContact.remove(contact.contactName);
         contact.stop();
+    }
+
+    @Override
+    public JPanel getTab() {
+        return this.jPanel;
     }
 }

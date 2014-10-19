@@ -12,6 +12,7 @@ import io.github.theguy191919.udpft.protocol.Protocol;
 import io.github.theguy191919.udpft.protocol.Protocol0;
 import io.github.theguy191919.udpft.protocol.ProtocolEventListener;
 import io.github.theguy191919.uhhuh.console.Console;
+import io.github.theguy191919.uhhuh.gui.GUIChat;
 
 /**
  *
@@ -20,6 +21,7 @@ import io.github.theguy191919.uhhuh.console.Console;
 public class Uhhuh implements ProtocolEventListener{
     
     public static Console console = new Console();
+    public static GUIChat guiChat = new GUIChat();
     
     public void methods(){
         ByteSender sender = new ByteSender();
