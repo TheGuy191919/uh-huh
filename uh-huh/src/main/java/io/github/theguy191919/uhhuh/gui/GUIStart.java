@@ -20,7 +20,7 @@ public class GUIStart implements GUIPaneTab{
         this.parentChat = parent;
         tabbedPanel = new JPanel();
         this.tabbedPanel.add(new JLabel("Testing in progress."));
-        
+        this.tabbedPanel.add(new JButton("Stop"));
         parentChat.createTabs("Start", this);
     }
 

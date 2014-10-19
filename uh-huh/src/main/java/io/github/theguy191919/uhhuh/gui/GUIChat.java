@@ -18,6 +18,7 @@ import javax.swing.*;
 public class GUIChat {
     
     public String userName;
+    private GroupLayout layout;
     private JFrame jFrame;
     private JMenuBar jMenuBar;
     private JMenu jMenuAbout;
@@ -28,18 +29,36 @@ public class GUIChat {
     public GUIChat(){
         jFrame = new JFrame("Uh Huh");
         jFrame.setSize(800, 600);
-        jFrame.setLayout(null);
+        layout = new GroupLayout(jFrame.getContentPane());
+        jFrame.getContentPane().setLayout(layout);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        layout.setAutoCreateContainerGaps(false);
+        layout.setAutoCreateGaps(true);
         
         jMenuBar = new JMenuBar();
         jFrame.add(jMenuBar);
-        jMenuBar.setBounds(0, jFrame.getHeight(), jFrame.getWidth(), 100);
+        //jMenuBar.setBounds(0, jFrame.getHeight(), jFrame.getWidth(), 100);
         jMenuAbout = new JMenu("About");
         jMenuBar.add(jMenuAbout);
         
         jTabbedPane = new JTabbedPane();
         jFrame.add(jTabbedPane);
-        jTabbedPane.setBounds(0, jFrame.getHeight() - 100, jFrame.getWidth(), jFrame.getHeight() - 100);
+        //jTabbedPane.setBounds(0, jFrame.getHeight() - 100, jFrame.getWidth(), jFrame.getHeight() - 100);
+        
+        layout.setHorizontalGroup(
+                layout.createSequentialGroup()
+                .addGroup(
+                        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jMenuBar, 0, jFrame.getWidth(), Short.MAX_VALUE)
+                        .addComponent(jTabbedPane, 0,jFrame.getWidth(), Short.MAX_VALUE)
+                )
+        );
+        layout.setVerticalGroup(
+                layout.createSequentialGroup()
+                .addComponent(jMenuBar, 30, 30, 30)
+                .addComponent(jTabbedPane, 0, jFrame.getHeight() - 80, Short.MAX_VALUE)
+        );
         
         GUIStart = new GUIStart(this);
         
@@ -53,6 +72,11 @@ public class GUIChat {
     public void createTabs(String name, GUIPaneTab tab){
         this.listOfTabs.add(tab);
         this.jTabbedPane.addTab(name, tab.getTab());
+    }
+    
+    public void removeTabs(GUIPaneTab tab){
+        this.jTabbedPane.remove(tab.getTab());
+        this.listOfTabs.remove(tab);
     }
     
 }
