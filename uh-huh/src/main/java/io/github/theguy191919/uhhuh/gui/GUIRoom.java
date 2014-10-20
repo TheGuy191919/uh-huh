@@ -9,7 +9,6 @@ import io.github.theguy191919.udpft.net.ByteReceiver;
 import io.github.theguy191919.udpft.net.ByteSender;
 import io.github.theguy191919.udpft.protocol.Protocol;
 import io.github.theguy191919.udpft.protocol.Protocol2;
-import io.github.theguy191919.udpft.protocol.ProtocolEventHandler;
 import io.github.theguy191919.udpft.protocol.ProtocolEventListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -26,7 +25,7 @@ import javax.swing.*;
  * @author evan__000
  */
 public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab{
-    
+    //http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
     public Thread thread;
     public String roomName;
     private GUIChat parentChat;
@@ -37,6 +36,11 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab{
     private boolean running;
     
     private JPanel jPanel = new JPanel();
+    private JTextArea jPanelChatArea;
+    private JScrollPane jPaneUsers;
+    private JList jListUsers;
+    private JTextArea jTextArea;
+    private JButton jButtonSend;
     
     public GUIRoom(String roomName, GUIChat parentChat, String ip){
         this.roomName = roomName;
@@ -144,5 +148,20 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab{
     @Override
     public JPanel getTab() {
         return this.jPanel;
+    }
+
+    @Override
+    public String getName() {
+        return this.roomName;
+    }
+
+    @Override
+    public void tabAdded() {
+        this.initTab();
+    }
+
+    @Override
+    public void tabRemoved() {
+        this.removeTab();
     }
 }

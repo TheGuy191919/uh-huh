@@ -13,4 +13,8 @@ import javax.swing.*;
  */
 public interface GUIPaneTab {
     JPanel getTab();
+    String getName();
+    void tabAdded();
+    void tabRemoved();
+    
 }

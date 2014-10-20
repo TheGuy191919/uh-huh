@@ -5,9 +5,8 @@
  */
 package io.github.theguy191919.uhhuh.gui;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.*;
 
 /**
@@ -15,15 +14,19 @@ import javax.swing.*;
  * Called by main class
  * @author evan__000
  */
-public class GUIChat {
+public class GUIChat implements Runnable{
     
     public String userName;
     private GroupLayout layout;
     private JFrame jFrame;
     private JMenuBar jMenuBar;
-    private JMenu jMenuAbout;
+    private JMenu jMenuUhhuh;
+    private JMenuItem jMenuUhuhAbout;
+    private JMenu jMenuExit;
+    private JMenuItem jMenuExitChat;
+    private JMenuItem jMenuExitProgram;
     private JTabbedPane jTabbedPane;
-    private List<GUIPaneTab> listOfTabs = Collections.synchronizedList(new LinkedList<GUIPaneTab>());
+    private Map<JPanel, GUIPaneTab> mapOfTabs = new ConcurrentHashMap();
     private GUIStart GUIStart;
     
     public GUIChat(){
@@ -39,8 +42,8 @@ public class GUIChat {
         jMenuBar = new JMenuBar();
         jFrame.add(jMenuBar);
         //jMenuBar.setBounds(0, jFrame.getHeight(), jFrame.getWidth(), 100);
-        jMenuAbout = new JMenu("About");
-        jMenuBar.add(jMenuAbout);
+        jMenuUhhuh = new JMenu("Uh Huh");
+        jMenuBar.add(jMenuUhhuh);
         
         jTabbedPane = new JTabbedPane();
         jFrame.add(jTabbedPane);
@@ -69,14 +72,35 @@ public class GUIChat {
         return this.jFrame;
     }
     
-    public void createTabs(String name, GUIPaneTab tab){
-        this.listOfTabs.add(tab);
-        this.jTabbedPane.addTab(name, tab.getTab());
+    public void createTab(GUIPaneTab tab){
+        this.mapOfTabs.put(tab.getTab(), tab);
+        this.jTabbedPane.addTab(tab.getName(), tab.getTab());
+        tab.tabAdded();
     }
     
-    public void removeTabs(GUIPaneTab tab){
+    public GUIPaneTab getTab(String name){
+        return null;
+    }
+    
+    public void removeCurrentTab(){
+        GUIPaneTab tab = this.mapOfTabs.get((JPanel)this.jTabbedPane.getComponentAt(this.jTabbedPane.getSelectedIndex()));
+        tab.tabRemoved();
+    }
+    
+    public void removeTab(GUIPaneTab tab){
         this.jTabbedPane.remove(tab.getTab());
-        this.listOfTabs.remove(tab);
+        this.mapOfTabs.remove(tab.getTab());
+        tab.tabRemoved();
+    }
+    
+    public void removeTab(String name){
+        GUIPaneTab tab = this.mapOfTabs.remove((JPanel)this.jTabbedPane.getComponentAt(this.jTabbedPane.indexOfTab(name)));
+        tab.tabRemoved();
+    }
+
+    @Override
+    public void run() {
+        
     }
     
 }

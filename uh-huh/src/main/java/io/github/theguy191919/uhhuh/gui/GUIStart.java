@@ -21,11 +21,26 @@ public class GUIStart implements GUIPaneTab{
         tabbedPanel = new JPanel();
         this.tabbedPanel.add(new JLabel("Testing in progress."));
         this.tabbedPanel.add(new JButton("Stop"));
-        parentChat.createTabs("Start", this);
+        parentChat.createTab(this);
     }
 
     @Override
     public JPanel getTab() {
         return this.tabbedPanel;
+    }
+    
+    @Override
+    public String getName(){
+        return "Start";
+    }
+
+    @Override
+    public void tabAdded() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void tabRemoved() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
