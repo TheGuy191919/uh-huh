@@ -5,6 +5,10 @@
  */
 package io.github.theguy191919.uhhuh.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.*;
@@ -17,17 +21,21 @@ import javax.swing.*;
 public class GUIChat implements Runnable{
     
     public String userName;
+    
     private GroupLayout layout;
     private JFrame jFrame;
     private JMenuBar jMenuBar;
     private JMenu jMenuUhhuh;
-    private JMenuItem jMenuUhuhAbout;
+    private JMenuItem jMenuUhhuhAbout;
+    private JMenuItem jMenuUhhuhCreateroom;
+    private JMenuItem jMenuUhhuhJoinroom;
+    private JMenuItem jMenuUhhuhOptions;
     private JMenu jMenuExit;
     private JMenuItem jMenuExitChat;
     private JMenuItem jMenuExitProgram;
     private JTabbedPane jTabbedPane;
     private Map<JPanel, GUIPaneTab> mapOfTabs = new ConcurrentHashMap();
-    private GUIStart GUIStart;
+    private GUIStart start;
     
     public GUIChat(){
         jFrame = new JFrame("Uh Huh");
@@ -43,7 +51,23 @@ public class GUIChat implements Runnable{
         jFrame.add(jMenuBar);
         //jMenuBar.setBounds(0, jFrame.getHeight(), jFrame.getWidth(), 100);
         jMenuUhhuh = new JMenu("Uh Huh");
+        jMenuUhhuhAbout = new JMenuItem("About");
+        jMenuUhhuhCreateroom = new JMenuItem("Create Room");
+        jMenuUhhuhJoinroom = new JMenuItem("Join Room");
+        jMenuUhhuhOptions = new JMenuItem("Options");
+        jMenuUhhuh.add(jMenuUhhuhAbout);
+        jMenuUhhuh.addSeparator();
+        jMenuUhhuh.add(jMenuUhhuhCreateroom);
+        jMenuUhhuh.add(jMenuUhhuhJoinroom);
+        jMenuUhhuh.addSeparator();
+        jMenuUhhuh.add(jMenuUhhuhOptions);
         jMenuBar.add(jMenuUhhuh);
+        jMenuExit = new JMenu("Exit");
+        jMenuExitChat = new JMenuItem("Exit This Chat");
+        jMenuExit.add(jMenuExitChat);
+        jMenuExitProgram = new JMenuItem("Exit Uh huh");
+        jMenuExit.add(jMenuExitProgram);
+        jMenuBar.add(jMenuExit);
         
         jTabbedPane = new JTabbedPane();
         jFrame.add(jTabbedPane);
@@ -63,9 +87,10 @@ public class GUIChat implements Runnable{
                 .addComponent(jTabbedPane, 0, jFrame.getHeight() - 80, Short.MAX_VALUE)
         );
         
-        GUIStart = new GUIStart(this);
+        start = new GUIStart(this);
+        GUIRoom room = new GUIRoom("Death", this, "234.235.236.237");
         
-        jFrame.setVisible(true);
+        //jFrame.setVisible(true);
     }
     
     public JFrame getFrame(){
@@ -79,7 +104,12 @@ public class GUIChat implements Runnable{
     }
     
     public GUIPaneTab getTab(String name){
-        return null;
+        return this.mapOfTabs.get((JPanel)this.jTabbedPane.getComponentAt(this.jTabbedPane.indexOfTab(name)));
+    }
+    
+    public List<GUIPaneTab> getListOfTabs(){
+        List<GUIPaneTab> listOfTab = new LinkedList<>(this.mapOfTabs.values());
+        return listOfTab;
     }
     
     public void removeCurrentTab(){
@@ -100,7 +130,7 @@ public class GUIChat implements Runnable{
 
     @Override
     public void run() {
-        
+        this.jFrame.setVisible(true);
     }
     
 }

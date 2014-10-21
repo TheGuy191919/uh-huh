@@ -20,12 +20,14 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
- *A room containing Contacts.
- * this is its own thread.
+ * A room containing Contacts. this is its own thread.
+ *
  * @author evan__000
  */
-public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab{
+public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
+
     //http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
+
     public Thread thread;
     public String roomName;
     private GUIChat parentChat;
@@ -35,14 +37,15 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab{
     private Map<String, Contact> mapOfContact = new ConcurrentHashMap<>();
     private boolean running;
     
+    private GroupLayout layout;
     private JPanel jPanel = new JPanel();
     private JTextArea jPanelChatArea;
     private JScrollPane jPaneUsers;
     private JList jListUsers;
-    private JTextArea jTextArea;
+    private JTextArea jEnterArea;
     private JButton jButtonSend;
     
-    public GUIRoom(String roomName, GUIChat parentChat, String ip){
+    public GUIRoom(String roomName, GUIChat parentChat, String ip) {
         this.roomName = roomName;
         this.parentChat = parentChat;
         try {
@@ -53,9 +56,10 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab{
         }
         Protocol.getProtocolEventHandler().regesterListner(this);
         this.initTab();
+        parentChat.createTab(this);
     }
     
-    public GUIRoom(String roomName, GUIChat parentChat, String ip, boolean visiable){
+    public GUIRoom(String roomName, GUIChat parentChat, String ip, boolean visiable) {
         this.roomName = roomName;
         this.parentChat = parentChat;
         try {
@@ -65,24 +69,25 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab{
             Logger.getLogger(GUIRoom.class.getName()).log(Level.SEVERE, null, ex);
         }
         Protocol.getProtocolEventHandler().regesterListner(this);
-        if(visiable){
+        if (visiable) {
             this.initTab();
+            parentChat.createTab(this);
         }
     }
     
-    public void start(){
+    public void start() {
         this.sender.joinGroup();
         this.receiver.startReceiver();
         this.running = true;
         this.thread = new Thread(this, "GUIRoom " + this.roomName);
         this.thread.start();
     }
-
+    
     @Override
     public void run() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //every 30 second sent a message
-        while(running){
+        while (running) {
             long startTime = System.currentTimeMillis();
             Protocol ping = new Protocol2();
             ping.setSender(this.parentChat.userName);
@@ -95,73 +100,117 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab{
         }
     }
     
-    public void stop(){
+    public void stop() {
         //need to stop contacts too
         this.running = false;
         Iterator iterator = this.mapOfContact.entrySet().iterator();
-        while(iterator.hasNext()){
-            Map.Entry paires = (Map.Entry<String, Contact>)iterator.next();
-            ((Contact)(paires.getValue())).stop();
+        while (iterator.hasNext()) {
+            Map.Entry paires = (Map.Entry<String, Contact>) iterator.next();
+            ((Contact) (paires.getValue())).stop();
             iterator.remove();
         }
         this.mapOfContact.clear();
         this.receiver.stopReveiver();
         this.thread = null;
     }
-
+    
     @Override
     public void gotEvent(Protocol protocol) {
-        if(protocol.getProtocolNumber() == 0){
+        if (protocol.getProtocolNumber() == 0) {
             this.gotMessage(protocol.getSender(), protocol.getContent());
-        }else if(protocol.getProtocolNumber() == 2){
-            if(this.mapOfContact.containsKey(protocol.getSender())){
+        } else if (protocol.getProtocolNumber() == 2) {
+            if (this.mapOfContact.containsKey(protocol.getSender())) {
                 this.mapOfContact.get(protocol.getSender()).gotPing(protocol);
-            }else{
+            } else {
                 this.addContact(new Contact(protocol.getSender(), this));
                 this.mapOfContact.get(protocol.getSender()).gotPing(protocol);
             }
         }
     }
     
-    private void initTab(){
+    private void initTab() {
+        this.layout = new GroupLayout(this.jPanel);
+        this.jPanel.setLayout(layout);
+        
+        layout.setAutoCreateContainerGaps(true);
+        layout.setAutoCreateGaps(true);
+        
+        this.jPanelChatArea = new JTextArea();
+        this.jPanelChatArea.setEditable(false);
+        this.jPanel.add(jPanelChatArea);
+        this.jListUsers = new JList();
+        this.jPaneUsers = new JScrollPane(this.jListUsers);
+        this.jPanel.add(jPaneUsers);
+        this.jEnterArea = new JTextArea();
+        this.jPanel.add(jEnterArea);
+        this.jButtonSend = new JButton("Send");
+        this.jPanel.add(jButtonSend);
+        
+        this.layout.setHorizontalGroup(
+                layout.createSequentialGroup()
+                .addGroup(
+                        layout.createParallelGroup()
+                        .addComponent(this.jPanelChatArea)
+                        .addGroup(
+                                layout.createSequentialGroup()
+                                .addComponent(this.jEnterArea)
+                                .addComponent(this.jButtonSend)
+                        )
+                ).addComponent(jPaneUsers, 200, 200, 200)
+        );
+        this.layout.setVerticalGroup(
+                layout.createSequentialGroup()
+                .addGroup(
+                        layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addGroup(
+                                layout.createSequentialGroup()
+                                .addComponent(this.jPanelChatArea)
+                                .addGroup(
+                                        layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                        .addComponent(this.jEnterArea, 24, 32, 48)
+                                        .addComponent(this.jButtonSend)
+                                )
+                        )
+                        .addComponent(this.jPaneUsers)
+                )
+        );
+    }
+    
+    public void removeTab() {
         
     }
     
-    public void removeTab(){
-        
+    public void gotMessage(String sender, String message) {
+        this.jPanelChatArea.append("[" + sender + "] " + message + "\n");
     }
     
-    public void gotMessage(String sender, String message){
-        
-    }
-    
-    public void addContact(Contact contact){
+    public void addContact(Contact contact) {
         this.mapOfContact.put(contact.contactName, contact);
         contact.start();
     }
     
-    public void removeContact(Contact contact){
+    public void removeContact(Contact contact) {
         this.mapOfContact.remove(contact.contactName);
         contact.stop();
     }
-
+    
     @Override
     public JPanel getTab() {
         return this.jPanel;
     }
-
+    
     @Override
     public String getName() {
         return this.roomName;
     }
-
+    
     @Override
     public void tabAdded() {
-        this.initTab();
+        //this.initTab();
     }
-
+    
     @Override
     public void tabRemoved() {
-        this.removeTab();
+        //this.removeTab();
     }
 }

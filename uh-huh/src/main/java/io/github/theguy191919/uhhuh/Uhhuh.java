@@ -38,6 +38,7 @@ public class Uhhuh implements ProtocolEventListener{
     
     public static void main(String[] args){
         console.start();
+        java.awt.EventQueue.invokeLater(guiChat);
         Uhhuh self = new Uhhuh();
         self.methods();
     }

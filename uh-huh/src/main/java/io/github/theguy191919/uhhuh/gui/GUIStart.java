@@ -5,6 +5,9 @@
  */
 package io.github.theguy191919.uhhuh.gui;
 
+import io.github.theguy191919.uhhuh.Uhhuh;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -15,12 +18,19 @@ public class GUIStart implements GUIPaneTab{
     
     private GUIChat parentChat;
     private JPanel tabbedPanel;
-    
+    private JButton button;
     public GUIStart(GUIChat parent){
         this.parentChat = parent;
         tabbedPanel = new JPanel();
         this.tabbedPanel.add(new JLabel("Testing in progress."));
-        this.tabbedPanel.add(new JButton("Stop"));
+        button = new JButton("Stop");
+        this.tabbedPanel.add(button);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Uhhuh.console.logger.log("this button is working", this);
+            }
+        });
         parentChat.createTab(this);
     }
 
@@ -36,11 +46,11 @@ public class GUIStart implements GUIPaneTab{
 
     @Override
     public void tabAdded() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void tabRemoved() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 }
