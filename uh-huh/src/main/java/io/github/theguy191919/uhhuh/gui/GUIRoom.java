@@ -8,8 +8,12 @@ package io.github.theguy191919.uhhuh.gui;
 import io.github.theguy191919.udpft.net.ByteReceiver;
 import io.github.theguy191919.udpft.net.ByteSender;
 import io.github.theguy191919.udpft.protocol.Protocol;
+import io.github.theguy191919.udpft.protocol.Protocol0;
 import io.github.theguy191919.udpft.protocol.Protocol2;
 import io.github.theguy191919.udpft.protocol.ProtocolEventListener;
+import io.github.theguy191919.uhhuh.Uhhuh;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Iterator;
@@ -85,7 +89,6 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     
     @Override
     public void run() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //every 30 second sent a message
         while (running) {
             long startTime = System.currentTimeMillis();
@@ -174,6 +177,16 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
                         .addComponent(this.jPaneUsers)
                 )
         );
+        this.jButtonSend.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Protocol pro = new Protocol0();
+                pro.setContent(jEnterArea.getText());
+                pro.setRecipient("none");
+                pro.setSender(Uhhuh.guiChat.userName);
+                sender.send(pro.returnByteArray());
+            }
+        });
     }
     
     public void removeTab() {
@@ -213,4 +226,5 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     public void tabRemoved() {
         //this.removeTab();
     }
+    
 }

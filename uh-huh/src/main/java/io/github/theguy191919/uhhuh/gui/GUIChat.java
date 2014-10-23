@@ -20,7 +20,8 @@ import javax.swing.*;
  */
 public class GUIChat implements Runnable{
     
-    public String userName;
+    public String userName = "Guy";
+    private boolean visiable = true;
     
     private GroupLayout layout;
     private JFrame jFrame;
@@ -38,6 +39,15 @@ public class GUIChat implements Runnable{
     private GUIStart start;
     
     public GUIChat(){
+        
+        this.initFrame();
+        
+        GUIRoom room = new GUIRoom("Death", this, "234.235.236.237");
+        room.start();
+        //jFrame.setVisible(true);
+    }
+    
+    public void initFrame(){
         jFrame = new JFrame("Uh Huh");
         jFrame.setSize(800, 600);
         layout = new GroupLayout(jFrame.getContentPane());
@@ -88,9 +98,10 @@ public class GUIChat implements Runnable{
         );
         
         start = new GUIStart(this);
-        GUIRoom room = new GUIRoom("Death", this, "234.235.236.237");
+    }
+    
+    public void removeFrame(){
         
-        //jFrame.setVisible(true);
     }
     
     public JFrame getFrame(){
