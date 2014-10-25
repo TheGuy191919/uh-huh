@@ -10,7 +10,7 @@ import io.github.theguy191919.uhhuh.gui.GUIPaneTab;
 import io.github.theguy191919.uhhuh.gui.GUIRoom;
 
 /**
- * createroom name
+ * createroom name ip(optional)
  * @author evan__000
  */
 public class CommandCreateroom extends Command{
@@ -20,7 +20,11 @@ public class CommandCreateroom extends Command{
         if(super.getArgsList().size() < 1){
             Uhhuh.console.logger.log("Error, need args name", this);
         } else {
-            GUIPaneTab tab = new GUIRoom(super.getArgsList().get(0), Uhhuh.guiChat, "234.235.236.237");
+            String ip = "234.235.236.237";
+            if(super.getArgsList().get(1) != null){
+                ip = super.getArgsList().get(1);
+            }
+            GUIPaneTab tab = new GUIRoom(super.getArgsList().get(0), Uhhuh.guiChat, ip);
             Uhhuh.guiChat.createTab(tab);
         }
     }

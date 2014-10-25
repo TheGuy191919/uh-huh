@@ -5,15 +5,17 @@
  */
 package io.github.theguy191919.uhhuh.console.commands;
 
+import io.github.theguy191919.uhhuh.Uhhuh;
+
 /**
- *
+ * leaveroom roomname
  * @author evan__000
  */
 public class CommandLeaveroom extends Command{
 
     @Override
     void trigged() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Uhhuh.guiChat.removeTab(super.getArgsList().get(0));
     }
     
 }

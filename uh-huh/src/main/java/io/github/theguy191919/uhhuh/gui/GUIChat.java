@@ -100,10 +100,6 @@ public class GUIChat implements Runnable{
         start = new GUIStart(this);
     }
     
-    public void removeFrame(){
-        
-    }
-    
     public JFrame getFrame(){
         return this.jFrame;
     }

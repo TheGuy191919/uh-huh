@@ -37,7 +37,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     private GUIChat parentChat;
     private ByteSender sender;
     private ByteReceiver receiver;
-    private boolean visible;
+    private boolean visible = true;
     private Map<String, Contact> mapOfContact = new ConcurrentHashMap<>();
     private boolean running;
     
@@ -104,7 +104,6 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     }
     
     public void stop() {
-        //need to stop contacts too
         this.running = false;
         Iterator iterator = this.mapOfContact.entrySet().iterator();
         while (iterator.hasNext()) {
