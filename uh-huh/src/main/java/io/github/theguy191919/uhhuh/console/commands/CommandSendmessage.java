@@ -5,15 +5,22 @@
  */
 package io.github.theguy191919.uhhuh.console.commands;
 
+import io.github.theguy191919.uhhuh.Uhhuh;
+import io.github.theguy191919.uhhuh.gui.GUIRoom;
+
 /**
- *
+ * sendmessage roomname message
  * @author evan__000
  */
 public class CommandSendmessage extends Command{
 
     @Override
     void trigged() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(super.getArgsList().size() < 2){
+            Uhhuh.console.logger.log("Error, need args roomname message", this);
+        } else {
+            ((GUIRoom)Uhhuh.guiChat.getTab(super.getArgsList().get(0))).sendMessage(super.getArgsList().get(1));
+        }
     }
     
 }

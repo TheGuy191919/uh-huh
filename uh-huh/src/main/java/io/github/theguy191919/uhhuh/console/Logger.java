@@ -37,6 +37,9 @@ public class Logger {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
     }
     
+    /*
+    * Presistant log, will be written to file
+    */
     public void log(String message, Object object){
         int logLevel = 3;
         if(logLevel <= this.logLevel){
@@ -48,5 +51,9 @@ public class Logger {
         if(logLevel <= this.logLevel){
             System.out.println(this.getFormatedTime() + ": " + object.getClass() + "[" + levelName[logLevel] + "]: " + message);
         }
+    }
+    
+    public void print(String message){
+        System.out.println(this.getFormatedTime() + ": " + message);
     }
 }

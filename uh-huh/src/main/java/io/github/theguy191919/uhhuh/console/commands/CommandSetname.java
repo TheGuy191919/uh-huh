@@ -8,17 +8,17 @@ package io.github.theguy191919.uhhuh.console.commands;
 import io.github.theguy191919.uhhuh.Uhhuh;
 
 /**
- * leaveroom roomname
+ * setname name
  * @author evan__000
  */
-public class CommandLeaveroom extends Command{
+public class CommandSetname extends Command{
 
     @Override
     void trigged() {
         if(super.getArgsList().size() < 1){
-            Uhhuh.console.logger.log("Plese have args roomname", this);
+            Uhhuh.console.logger.log("Error, need args name", this);
         } else {
-            Uhhuh.guiChat.removeTab(super.getArgsList().get(0));
+            Uhhuh.guiChat.userName = super.getArgsList().get(0);
         }
     }
     

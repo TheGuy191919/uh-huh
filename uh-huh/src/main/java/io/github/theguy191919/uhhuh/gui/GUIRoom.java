@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -179,11 +181,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
         this.jButtonSend.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                Protocol pro = new Protocol0();
-                pro.setContent(jEnterArea.getText());
-                pro.setRecipient("none");
-                pro.setSender(Uhhuh.guiChat.userName);
-                sender.send(pro.returnByteArray());
+                sendMessage();
             }
         });
     }
@@ -194,8 +192,25 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     
     public void gotMessage(String sender, String message) {
         this.jPanelChatArea.append("[" + sender + "] " + message + "\n");
+        Uhhuh.console.logger.print("[" + sender + "] " + message);
     }
     
+    public void sendMessage() {
+        Protocol pro = new Protocol0();
+        pro.setContent(jEnterArea.getText());
+        pro.setRecipient("none");
+        pro.setSender(Uhhuh.guiChat.userName);
+        sender.send(pro.returnByteArray());
+    }
+
+    public void sendMessage(String message) {
+        Protocol pro = new Protocol0();
+        pro.setContent(message);
+        pro.setRecipient("none");
+        pro.setSender(Uhhuh.guiChat.userName);
+        sender.send(pro.returnByteArray());
+    }
+
     public void addContact(Contact contact) {
         this.mapOfContact.put(contact.contactName, contact);
         contact.start();
@@ -204,6 +219,10 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     public void removeContact(Contact contact) {
         this.mapOfContact.remove(contact.contactName);
         contact.stop();
+    }
+    
+    public List<String> getContacts(){
+        return new LinkedList<String>(this.mapOfContact.keySet());
     }
     
     @Override

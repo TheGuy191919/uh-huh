@@ -5,15 +5,29 @@
  */
 package io.github.theguy191919.uhhuh.console.commands;
 
+import io.github.theguy191919.uhhuh.Uhhuh;
+import io.github.theguy191919.uhhuh.gui.Contact;
+import io.github.theguy191919.uhhuh.gui.GUIRoom;
+import java.util.List;
+
 /**
- *
+ * listusers roomname
  * @author evan__000
  */
 public class CommandListusers extends Command{
 
     @Override
     void trigged() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(super.getArgsList().size() < 1){
+            Uhhuh.console.logger.log("Error, need args roomname", this);
+        } else {
+            List<String> listOfNames = ((GUIRoom)Uhhuh.guiChat.getTab(super.getArgsList().get(0))).getContacts();
+            Uhhuh.console.logger.print("---List Of Contacts in room " + super.getArgsList().get(0) + "---");
+            for(String name : listOfNames){
+                Uhhuh.console.logger.print(name);
+            }
+            Uhhuh.console.logger.print("-----End of List-----");
+        }
     }
     
 }

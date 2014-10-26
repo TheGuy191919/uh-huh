@@ -10,7 +10,7 @@ import io.github.theguy191919.uhhuh.gui.GUIPaneTab;
 import java.util.List;
 
 /**
- * 
+ * listrooms
  * @author evan__000
  */
 public class CommandListrooms extends Command{

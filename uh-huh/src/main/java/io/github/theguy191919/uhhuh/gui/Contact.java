@@ -55,7 +55,7 @@ public class Contact implements Runnable{
     
     public void stop(){
         this.running = false;
-        this.parentRoom.removeContact(this);
+        //this.parentRoom.removeContact(this);
         this.thread = null;
     }
     

@@ -20,7 +20,7 @@ import javax.swing.*;
  */
 public class GUIChat implements Runnable{
     
-    public String userName = "Guy";
+    public String userName = "TheGuy";
     private boolean visiable = true;
     
     private GroupLayout layout;

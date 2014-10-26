@@ -24,8 +24,15 @@ public abstract class Command {
     private static final Map<String, Class<? extends Command>> listOfCommands;
     static{
         listOfCommands = new HashMap<>();
-        Command.registerCommand("test", CommandTest.class);
+        Command.registerCommand("createroom", CommandCreateroom.class);
+        Command.registerCommand("joinroom", CommandJoinroom.class);
+        Command.registerCommand("leaveroom", CommandLeaveroom.class);
+        Command.registerCommand("listrooms", CommandListrooms.class);
+        Command.registerCommand("listusers", CommandListusers.class);
+        Command.registerCommand("sendmessage", CommandSendmessage.class);
+        Command.registerCommand("setname", CommandSetname.class);
         Command.registerCommand("stop", CommandStop.class);
+        Command.registerCommand("test", CommandTest.class);
     }
     
     public static void registerCommand(String name, Class<? extends Command> classThatExtendsCommand){
