@@ -47,7 +47,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     private JPanel jPanel = new JPanel();
     private JTextArea jPanelChatArea;
     private JScrollPane jPaneUsers;
-    private JList jListUsers;
+    private JList<Contact> jListUsers;
     private JTextArea jEnterArea;
     private JButton jButtonSend;
     

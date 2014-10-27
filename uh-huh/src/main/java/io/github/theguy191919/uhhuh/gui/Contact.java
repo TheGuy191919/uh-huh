@@ -59,4 +59,9 @@ public class Contact implements Runnable{
         this.thread = null;
     }
     
+    @Override
+    public String toString(){
+        return this.contactName;
+    }
+    
 }
