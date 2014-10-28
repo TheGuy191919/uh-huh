@@ -19,19 +19,24 @@ public class Console implements Runnable{
    public Logger logger = new Logger(4);
    private Thread thread;
    private Scanner scanner = new Scanner(System.in);
+   private boolean running = false;
    
    public void start(){
        thread = new Thread(this, "Console");
+       running = true;
        thread.start();
    }
    
     @Override
     public void run() {
-        String command = scanner.nextLine();
-        Command.getCommand(command);
+        while(running){
+            String command = scanner.nextLine();
+            Command.getCommand(command);
+        }
     }
     
     public void stop(){
+        running = false;
         thread = null;
     }
 }

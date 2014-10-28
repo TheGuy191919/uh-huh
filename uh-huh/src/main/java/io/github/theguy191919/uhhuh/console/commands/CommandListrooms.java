@@ -17,10 +17,12 @@ public class CommandListrooms extends Command{
 
     @Override
     void trigged() {
+        Uhhuh.console.logger.print("---List Of Rooms---");
         List<GUIPaneTab> listOfTabs = Uhhuh.guiChat.getListOfTabs();
         for(GUIPaneTab tab : listOfTabs){
-            Uhhuh.console.logger.log(tab.getName(), this);
+            Uhhuh.console.logger.print(tab.getName());
         }
+        Uhhuh.console.logger.print("---End Of List---");
     }
     
 }

@@ -19,6 +19,7 @@ public class CommandLeaveroom extends Command{
             Uhhuh.console.logger.log("Plese have args roomname", this);
         } else {
             Uhhuh.guiChat.removeTab(super.getArgsList().get(0));
+            Uhhuh.console.logger.print("Room " + super.getArgsList().get(0) + " removed");
         }
     }
     

@@ -10,7 +10,7 @@ import io.github.theguy191919.uhhuh.gui.GUIPaneTab;
 import io.github.theguy191919.uhhuh.gui.GUIRoom;
 
 /**
- *
+ * work in progress
  * @author evan__000
  */
 public class CommandJoinroom extends Command{

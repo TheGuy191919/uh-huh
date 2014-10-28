@@ -40,7 +40,7 @@ public abstract class Command {
     }
     
     public static Command getCommand(String command){
-        command = command.toLowerCase().trim();
+        command = command.trim();
         command = " " + command + " ";
         List<Integer> spacepos = new LinkedList();
         for(int a = 0; a < command.length(); a++){
@@ -50,7 +50,7 @@ public abstract class Command {
         }
         Command commandObj = null;
         try {
-            commandObj = listOfCommands.get(command.substring(spacepos.get(0) + 1, spacepos.get(1)).trim()).newInstance();
+            commandObj = listOfCommands.get(command.substring(spacepos.get(0) + 1, spacepos.get(1)).toLowerCase().trim()).newInstance();
             //commandObj.setCommandName(command.substring(spacepos.get(0) + 1, spacepos.get(1)).trim());
             for(int a = 1; a < spacepos.size() - 1; a++){
                 commandObj.getArgsList().add(command.substring(spacepos.get(a) + 1, spacepos.get(a + 1)).trim());

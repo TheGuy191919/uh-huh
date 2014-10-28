@@ -20,6 +20,7 @@ public class CommandSendmessage extends Command{
             Uhhuh.console.logger.log("Error, need args roomname message", this);
         } else {
             ((GUIRoom)Uhhuh.guiChat.getTab(super.getArgsList().get(0))).sendMessage(super.getArgsList().get(1));
+            Uhhuh.console.logger.print("Message Sent");
         }
     }
     

@@ -21,9 +21,10 @@ public class CommandCreateroom extends Command{
             Uhhuh.console.logger.log("Error, need args name", this);
         } else {
             String ip = "234.235.236.237";
-            if(super.getArgsList().get(1) != null){
+            if(super.getArgsList().size() == 2){
                 ip = super.getArgsList().get(1);
             }
+            Uhhuh.console.logger.print("Creating room " + super.getArgsList().get(0) + " with ip " + ip);
             GUIPaneTab tab = new GUIRoom(super.getArgsList().get(0), Uhhuh.guiChat, ip);
             Uhhuh.guiChat.createTab(tab);
         }

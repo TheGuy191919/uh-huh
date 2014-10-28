@@ -192,7 +192,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     
     public void gotMessage(String sender, String message) {
         this.jPanelChatArea.append("[" + sender + "] " + message + "\n");
-        Uhhuh.console.logger.print("[" + sender + "] " + message);
+        Uhhuh.console.logger.print("[" + this.roomName + "] " + "[" + sender + "] " + message);
     }
     
     public void sendMessage() {

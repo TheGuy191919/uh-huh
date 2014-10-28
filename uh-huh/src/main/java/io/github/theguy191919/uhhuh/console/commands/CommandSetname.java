@@ -19,6 +19,7 @@ public class CommandSetname extends Command{
             Uhhuh.console.logger.log("Error, need args name", this);
         } else {
             Uhhuh.guiChat.userName = super.getArgsList().get(0);
+            Uhhuh.console.logger.print("Name set to: " + super.getArgsList().get(0));
         }
     }
     
