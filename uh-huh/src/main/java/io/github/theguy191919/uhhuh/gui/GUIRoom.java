@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     private JPanel jPanel = new JPanel();
     private JTextArea jPanelChatArea;
     private JScrollPane jPaneUsers;
-    private JList<Contact> jListUsers;
+    private JList jListUsers;
     private JTextArea jEnterArea;
     private JButton jButtonSend;
     
@@ -142,7 +143,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
         this.jPanelChatArea = new JTextArea();
         this.jPanelChatArea.setEditable(false);
         this.jPanel.add(jPanelChatArea);
-        this.jListUsers = new JList();
+        this.jListUsers = new JList(new Vector<>(this.mapOfContact.values()));
         this.jPaneUsers = new JScrollPane(this.jListUsers);
         this.jPanel.add(jPaneUsers);
         this.jEnterArea = new JTextArea();
@@ -213,11 +214,13 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
 
     public void addContact(Contact contact) {
         this.mapOfContact.put(contact.contactName, contact);
+        this.jListUsers.setListData(new LinkedList<>(this.mapOfContact.values()).toArray());
         contact.start();
     }
     
     public void removeContact(Contact contact) {
         this.mapOfContact.remove(contact.contactName);
+        this.jListUsers.setListData(new LinkedList<>(this.mapOfContact.values()).toArray());
         contact.stop();
     }
     

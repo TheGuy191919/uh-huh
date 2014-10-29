@@ -6,11 +6,6 @@
 
 package io.github.theguy191919.uhhuh;
 
-import io.github.theguy191919.udpft.net.ByteReceiver;
-import io.github.theguy191919.udpft.net.ByteSender;
-import io.github.theguy191919.udpft.protocol.Protocol;
-import io.github.theguy191919.udpft.protocol.Protocol0;
-import io.github.theguy191919.udpft.protocol.ProtocolEventListener;
 import io.github.theguy191919.uhhuh.console.Console;
 import io.github.theguy191919.uhhuh.gui.GUIChat;
 

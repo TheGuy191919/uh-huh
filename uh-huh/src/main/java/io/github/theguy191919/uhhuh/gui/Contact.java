@@ -43,7 +43,8 @@ public class Contact implements Runnable{
         while(running){
             long startTime = System.currentTimeMillis();
             if((int)(System.currentTimeMillis() / 1000) - this.lastPringTime > 120){
-                this.stop();
+                //this.stop();
+                this.parentRoom.removeContact(this);
             }
             try {
                 Thread.sleep(30000 - (System.currentTimeMillis() - startTime));
