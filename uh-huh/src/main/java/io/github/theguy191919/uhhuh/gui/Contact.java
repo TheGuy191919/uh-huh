@@ -42,12 +42,12 @@ public class Contact implements Runnable{
     public void run() {
         while(running){
             long startTime = System.currentTimeMillis();
-            if((int)(System.currentTimeMillis() / 1000) - this.lastPringTime > 120){
+            if((int)(System.currentTimeMillis() / 1000) - this.lastPringTime > 30){
                 //this.stop();
                 this.parentRoom.removeContact(this);
             }
             try {
-                Thread.sleep(30000 - (System.currentTimeMillis() - startTime));
+                Thread.sleep(5000 - (System.currentTimeMillis() - startTime));
             } catch (InterruptedException ex) {
                 Logger.getLogger(Contact.class.getName()).log(Level.SEVERE, null, ex);
             }

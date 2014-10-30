@@ -214,14 +214,18 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
 
     public void addContact(Contact contact) {
         this.mapOfContact.put(contact.contactName, contact);
-        this.jListUsers.setListData(new LinkedList<>(this.mapOfContact.values()).toArray());
+        this.refreshContactList();
         contact.start();
     }
     
     public void removeContact(Contact contact) {
         this.mapOfContact.remove(contact.contactName);
-        this.jListUsers.setListData(new LinkedList<>(this.mapOfContact.values()).toArray());
+        this.refreshContactList();
         contact.stop();
+    }
+    
+    private void refreshContactList(){
+        this.jListUsers.setListData(new LinkedList<>(this.mapOfContact.values()).toArray());
     }
     
     public List<String> getContacts(){
