@@ -5,8 +5,6 @@
  */
 package io.github.theguy191919.uhhuh.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +41,6 @@ public class GUIChat implements Runnable{
         this.initFrame();
         
         GUIRoom room = new GUIRoom("Death", this, "234.235.236.237");
-        room.start();
         //jFrame.setVisible(true);
     }
     

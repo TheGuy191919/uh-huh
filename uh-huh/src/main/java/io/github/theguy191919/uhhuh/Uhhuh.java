@@ -6,8 +6,14 @@
 
 package io.github.theguy191919.uhhuh;
 
+import io.github.theguy191919.udpft.encryption.SimpleCrypto;
 import io.github.theguy191919.uhhuh.console.Console;
 import io.github.theguy191919.uhhuh.gui.GUIChat;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *

@@ -5,6 +5,8 @@
  */
 package io.github.theguy191919.uhhuh.gui;
 
+import io.github.theguy191919.udpft.encryption.AbstractCrypto;
+import io.github.theguy191919.udpft.encryption.SimpleCrypto;
 import io.github.theguy191919.udpft.net.ByteReceiver;
 import io.github.theguy191919.udpft.net.ByteSender;
 import io.github.theguy191919.udpft.protocol.Protocol;
@@ -14,6 +16,8 @@ import io.github.theguy191919.udpft.protocol.ProtocolEventListener;
 import io.github.theguy191919.uhhuh.Uhhuh;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Iterator;
@@ -43,9 +47,11 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     private boolean visible = true;
     private Map<String, Contact> mapOfContact = new ConcurrentHashMap<>();
     private boolean running;
+    private AbstractCrypto crypto = new SimpleCrypto();
     
     private GroupLayout layout;
     private JPanel jPanel = new JPanel();
+    private JScrollPane jScrollChatArea;
     private JTextArea jPanelChatArea;
     private JScrollPane jPaneUsers;
     private JList jListUsers;
@@ -62,8 +68,12 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
             Logger.getLogger(GUIRoom.class.getName()).log(Level.SEVERE, null, ex);
         }
         Protocol.getProtocolEventHandler().regesterListner(this);
+        this.crypto.setPublicKey(this.roomName.hashCode());
+        this.sender.setCrypto(crypto);
+        this.receiver.setCrypto(crypto);
         this.initTab();
         parentChat.createTab(this);
+        this.start();
     }
     
     public GUIRoom(String roomName, GUIChat parentChat, String ip, boolean visiable) {
@@ -76,10 +86,14 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
             Logger.getLogger(GUIRoom.class.getName()).log(Level.SEVERE, null, ex);
         }
         Protocol.getProtocolEventHandler().regesterListner(this);
+        this.crypto.setPublicKey(this.roomName.hashCode());
+        this.sender.setCrypto(crypto);
+        this.receiver.setCrypto(crypto);
         if (visiable) {
             this.initTab();
             parentChat.createTab(this);
         }
+        this.start();
     }
     
     public void start() {
@@ -142,11 +156,34 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
         
         this.jPanelChatArea = new JTextArea();
         this.jPanelChatArea.setEditable(false);
-        this.jPanel.add(jPanelChatArea);
+        this.jPanelChatArea.append("Welcome to " + this.roomName + ". Enjoy your stay.");
+        this.jScrollChatArea = new JScrollPane(this.jPanelChatArea);
+        this.jPanel.add(jScrollChatArea);
         this.jListUsers = new JList(new Vector<>(this.mapOfContact.values()));
         this.jPaneUsers = new JScrollPane(this.jListUsers);
         this.jPanel.add(jPaneUsers);
         this.jEnterArea = new JTextArea();
+        this.jEnterArea.addKeyListener(new KeyListener(){
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    jButtonSend.doClick();
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                
+            }
+                
+        });
         this.jPanel.add(jEnterArea);
         this.jButtonSend = new JButton("Send");
         this.jPanel.add(jButtonSend);
@@ -155,7 +192,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
                 layout.createSequentialGroup()
                 .addGroup(
                         layout.createParallelGroup()
-                        .addComponent(this.jPanelChatArea)
+                        .addComponent(this.jScrollChatArea)
                         .addGroup(
                                 layout.createSequentialGroup()
                                 .addComponent(this.jEnterArea)
@@ -169,7 +206,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
                         layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         .addGroup(
                                 layout.createSequentialGroup()
-                                .addComponent(this.jPanelChatArea)
+                                .addComponent(this.jScrollChatArea)
                                 .addGroup(
                                         layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                         .addComponent(this.jEnterArea, 24, 32, 48)
@@ -192,7 +229,9 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     }
     
     public void gotMessage(String sender, String message) {
-        this.jPanelChatArea.append("[" + sender + "] " + message + "\n");
+        this.jPanelChatArea.append("\n" + "[" + sender + "] " + message);
+        this.jScrollChatArea.getVerticalScrollBar().validate();
+        this.jScrollChatArea.getVerticalScrollBar().setValue(this.jScrollChatArea.getVerticalScrollBar().getMaximum());
         Uhhuh.console.logger.print("[" + this.roomName + "] " + "[" + sender + "] " + message);
     }
     
@@ -202,6 +241,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
         pro.setRecipient("none");
         pro.setSender(Uhhuh.guiChat.userName);
         sender.send(pro.returnByteArray());
+        jEnterArea.setText("");
     }
 
     public void sendMessage(String message) {
@@ -210,6 +250,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
         pro.setRecipient("none");
         pro.setSender(Uhhuh.guiChat.userName);
         sender.send(pro.returnByteArray());
+        jEnterArea.setText("");
     }
 
     public void addContact(Contact contact) {
