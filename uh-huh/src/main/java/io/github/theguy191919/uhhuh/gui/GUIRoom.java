@@ -35,7 +35,7 @@ import javax.swing.*;
  *
  * @author evan__000
  */
-public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
+public class GUIRoom implements Runnable, GUIPaneTab {
 
     //http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
 
@@ -59,21 +59,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
     private JButton jButtonSend;
     
     public GUIRoom(String roomName, GUIChat parentChat, String ip) {
-        this.roomName = roomName;
-        this.parentChat = parentChat;
-        try {
-            this.sender = new ByteSender(InetAddress.getByName(ip), 58394);
-            this.receiver = new ByteReceiver(InetAddress.getByName(ip), 58394);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(GUIRoom.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Protocol.getProtocolEventHandler().regesterListner(this);
-        this.crypto.setPublicKey(this.roomName.hashCode());
-        this.sender.setCrypto(crypto);
-        this.receiver.setCrypto(crypto);
-        this.initTab();
-        parentChat.createTab(this);
-        this.start();
+        this(roomName, parentChat, ip, true);
     }
     
     public GUIRoom(String roomName, GUIChat parentChat, String ip, boolean visiable) {
@@ -85,10 +71,18 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
         } catch (UnknownHostException ex) {
             Logger.getLogger(GUIRoom.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Protocol.getProtocolEventHandler().regesterListner(this);
+        //Protocol.getProtocolEventHandler().regesterListner(this);
         this.crypto.setPublicKey(this.roomName.hashCode());
         this.sender.setCrypto(crypto);
         this.receiver.setCrypto(crypto);
+        this.receiver.addListener(new ProtocolEventListener(){
+
+            @Override
+            public void gotEvent(Protocol protocol) {
+                protocolEvent(protocol);
+            }
+            
+        });
         if (visiable) {
             this.initTab();
             parentChat.createTab(this);
@@ -133,8 +127,7 @@ public class GUIRoom implements Runnable, ProtocolEventListener, GUIPaneTab {
         this.thread = null;
     }
     
-    @Override
-    public void gotEvent(Protocol protocol) {
+    public void protocolEvent(Protocol protocol) {
         if (protocol.getProtocolNumber() == 0) {
             this.gotMessage(protocol.getSender(), protocol.getContent());
         } else if (protocol.getProtocolNumber() == 2) {
