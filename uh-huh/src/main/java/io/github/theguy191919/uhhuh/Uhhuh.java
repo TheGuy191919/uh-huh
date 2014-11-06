@@ -6,14 +6,8 @@
 
 package io.github.theguy191919.uhhuh;
 
-import io.github.theguy191919.udpft.encryption.SimpleCrypto;
 import io.github.theguy191919.uhhuh.console.Console;
 import io.github.theguy191919.uhhuh.gui.GUIChat;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -21,6 +15,7 @@ import java.util.logging.Logger;
  */
 public class Uhhuh {
     
+    public static Options options = new Options();
     public static Console console = new Console();
     public static GUIChat guiChat = new GUIChat();
     

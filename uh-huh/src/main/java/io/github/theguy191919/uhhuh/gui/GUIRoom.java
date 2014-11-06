@@ -104,7 +104,7 @@ public class GUIRoom implements Runnable, GUIPaneTab {
         while (running) {
             long startTime = System.currentTimeMillis();
             Protocol ping = new Protocol2();
-            ping.setSender(this.parentChat.userName);
+            ping.setSender(this.parentChat.getUserName());
             this.sender.send(ping.returnByteArray());
             try {
                 Thread.sleep(30000 - (System.currentTimeMillis() - startTime));
@@ -232,7 +232,7 @@ public class GUIRoom implements Runnable, GUIPaneTab {
         Protocol pro = new Protocol0();
         pro.setContent(jEnterArea.getText());
         pro.setRecipient("none");
-        pro.setSender(Uhhuh.guiChat.userName);
+        pro.setSender(Uhhuh.guiChat.getUserName());
         sender.send(pro.returnByteArray());
         jEnterArea.setText("");
     }
@@ -241,7 +241,7 @@ public class GUIRoom implements Runnable, GUIPaneTab {
         Protocol pro = new Protocol0();
         pro.setContent(message);
         pro.setRecipient("none");
-        pro.setSender(Uhhuh.guiChat.userName);
+        pro.setSender(Uhhuh.guiChat.getUserName());
         sender.send(pro.returnByteArray());
         jEnterArea.setText("");
     }
@@ -283,7 +283,10 @@ public class GUIRoom implements Runnable, GUIPaneTab {
     
     @Override
     public void tabRemoved() {
-        //this.removeTab();
+        this.receiver.stopReveiver();
+        for(Contact contact : this.mapOfContact.values()){
+            contact.stop();
+        }
     }
     
 }

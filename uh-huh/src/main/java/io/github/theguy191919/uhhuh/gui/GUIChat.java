@@ -24,7 +24,7 @@ import javax.swing.*;
  */
 public class GUIChat implements Runnable {
 
-    public String userName = String.valueOf((int) (Math.random() * 10000));
+    private String userName = Uhhuh.options.getProperty("UserName");
     private boolean visiable = true;
 
     private GroupLayout layout;
@@ -48,6 +48,7 @@ public class GUIChat implements Runnable {
 
         GUIRoom room = new GUIRoom("Death", this, "234.235.236.237");
         //jFrame.setVisible(true);
+        //this.createRoom("Death");
     }
 
     public void initFrame() {
@@ -262,5 +263,24 @@ public class GUIChat implements Runnable {
         ip = ip + ipSubAddress;
         GUIPaneTab tab = new GUIRoom(roomName, Uhhuh.guiChat, ip);
     }
+    
+    public void stop(){
+        this.jFrame.dispose();
+    }
 
+    /**
+     * @return the userName
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * @param userName the userName to set
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+        Uhhuh.options.setProperty("UserName", userName);
+    }
+    
 }

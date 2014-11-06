@@ -23,11 +23,6 @@ public class FileReader {
         this.setFileLocation(fileLocation);
     }
     
-    public FileReader(String fileLocation, boolean replaceFile){
-        this.replaceFile = replaceFile;
-        this.setFileLocation(fileLocation);
-    }
-    
     /**
      * @return the inputStream
      */
@@ -50,24 +45,14 @@ public class FileReader {
         this.fileLocation = fileLocation;
         this.file = new File(this.fileLocation);
         
-        if(!this.replaceFile){
-            if(this.file.isFile()){
-                this.fileLocation = this.fileLocation + "-1";
-                this.file = new File(this.fileLocation);
-            }
-            while(this.file.isFile()){
-                this.fileLocation = this.fileLocation.substring(0, this.fileLocation.length() - 2);
-                this.file = new File(this.fileLocation);
+        if(!this.file.isFile()){
+            try {
+                this.file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(FileReader.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-        if(!this.file.isFile()){
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(FileWriter.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
         try {
             this.inputStream = new FileInputStream(this.file);
         } catch (FileNotFoundException ex) {
