@@ -116,13 +116,18 @@ public class GUIRoom implements Runnable, GUIPaneTab {
     
     public void stop() {
         this.running = false;
-        Iterator iterator = this.mapOfContact.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry paires = (Map.Entry<String, Contact>) iterator.next();
-            ((Contact) (paires.getValue())).stop();
-            iterator.remove();
+//        Iterator iterator = this.mapOfContact.entrySet().iterator();
+//        while (iterator.hasNext()) {
+//            Map.Entry paires = (Map.Entry<String, Contact>) iterator.next();
+//            ((Contact) (paires.getValue())).stop();
+//            iterator.remove();
+//        }
+//        this.mapOfContact.clear();
+        //this.receiver.stopReveiver();
+        for(Contact contact : this.mapOfContact.values()){
+            contact.stop();
         }
-        this.mapOfContact.clear();
+        this.thread.interrupt();
         this.receiver.stopReveiver();
         this.thread = null;
     }
@@ -283,10 +288,11 @@ public class GUIRoom implements Runnable, GUIPaneTab {
     
     @Override
     public void tabRemoved() {
-        this.receiver.stopReveiver();
-        for(Contact contact : this.mapOfContact.values()){
-            contact.stop();
-        }
+//        this.receiver.stopReveiver();
+//        for(Contact contact : this.mapOfContact.values()){
+//            contact.stop();
+//        }
+        this.stop();
     }
     
 }

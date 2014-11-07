@@ -6,11 +6,15 @@
 package io.github.theguy191919.uhhuh.gui;
 
 import io.github.theguy191919.uhhuh.Uhhuh;
+import io.github.theguy191919.uhhuh.console.commands.Command;
+import io.github.theguy191919.uhhuh.console.commands.CommandStop;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +60,15 @@ public class GUIChat implements Runnable {
         jFrame.setSize(800, 600);
         layout = new GroupLayout(jFrame.getContentPane());
         jFrame.getContentPane().setLayout(layout);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrame.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Uhhuh.console.logger.print("Stoping");
+                Command.getCommand("stop");
+                //jFrame.dispose();
+            }
+        });
 
         layout.setAutoCreateContainerGaps(false);
         layout.setAutoCreateGaps(true);
