@@ -27,20 +27,20 @@ public class Options {
     private String fileLocation = System.getProperty("user.dir") + File.separator + "config.properties";
     private FileReader reader;
     private FileWriter writer;
-    private Map<String, String> mapOfProperties = new LinkedHashMap<>();
+    //private Map<String, String> mapOfProperties = new LinkedHashMap<>();
     
     public Options(){
         try {
             this.reader = new FileReader(this.fileLocation);
-            this.writer = new FileWriter(this.fileLocation, true);
             this.properties = new Properties();
             this.properties.load(this.reader.getInputStream());
             
-            Iterator iter = this.properties.entrySet().iterator();
-            while(iter.hasNext()){
-                Entry entry = (Entry)iter.next();
-                this.mapOfProperties.put((String)entry.getKey(), (String)entry.getValue());
-            }
+//            Iterator iter = this.properties.entrySet().iterator();
+//            while(iter.hasNext()){
+//                Entry entry = (Entry)iter.next();
+//                this.mapOfProperties.put((String)entry.getKey(), (String)entry.getValue());
+//                iter.remove();
+//            }
             
             //this.properties.store(null, fileLocation);
         } catch (IOException ex) {
@@ -49,21 +49,27 @@ public class Options {
     }
     
     public String getProperty(String property){
-        if(!this.mapOfProperties.containsKey(property)){
-            this.mapOfProperties.put(property, "");
+//        if(!this.mapOfProperties.containsKey(property)){
+//            this.mapOfProperties.put(property, "");
+//        }
+//        return this.mapOfProperties.get(property);
+        if(!this.properties.containsKey(property)){
+            this.properties.put(property, "");
         }
-        return this.mapOfProperties.get(property);
+        return this.properties.getProperty(property);
     }
     
     public void setProperty(String property, String value){
-        this.mapOfProperties.put(property, value);
+        //this.mapOfProperties.put(property, value);
+        this.properties.setProperty(property, value);
     }
     
     public void closeProperties(){
-        this.properties.putAll(this.mapOfProperties);
+        //this.properties.putAll(this.mapOfProperties);
         try {
-            this.properties.store(this.writer.getOutputStream(), "Properties For Uh huh, updated on " + System.currentTimeMillis());
             this.reader.getInputStream().close();
+            this.writer = new FileWriter(this.fileLocation, true);
+            this.properties.store(this.writer.getOutputStream(), "Properties For Uh huh");
             this.writer.getOutputStream().flush();
             //this.writer.getOutputStream().close();
         } catch (IOException ex) {

@@ -29,5 +29,6 @@ public class CommandStop extends Command{
         Uhhuh.guiChat.stop();
         Uhhuh.console.stop();
         Uhhuh.options.closeProperties();
+        Uhhuh.console.logger.stopLogging();
     }
 }

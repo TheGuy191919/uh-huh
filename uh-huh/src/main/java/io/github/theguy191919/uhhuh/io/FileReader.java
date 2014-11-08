@@ -17,7 +17,6 @@ public class FileReader {
     private InputStream inputStream;
     private String fileLocation;
     private File file;
-    private boolean replaceFile = false;
     
     public FileReader(String fileLocation){
         this.setFileLocation(fileLocation);
