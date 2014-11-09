@@ -5,24 +5,18 @@
  */
 package io.github.theguy191919.uhhuh.gui;
 
-import io.github.theguy191919.uhhuh.Uhhuh;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
  *
  * @author evan__000
  */
-public class GUIStart implements GUIPaneTab{
+public class StartTab implements PaneTab{
     
-    private GUIChat parentChat;
+    private Chat parentChat;
     private JPanel tabbedPanel;
-    private JLabel jWelcome;
-    private JTextField jFieldSetname;
-    private JButton jButtonSetname;
     
-    public GUIStart(GUIChat parent){
+    public StartTab(Chat parent){
         this.parentChat = parent;
         tabbedPanel = new JPanel();
 //        this.tabbedPanel.add(new JLabel("Testing in progress."));

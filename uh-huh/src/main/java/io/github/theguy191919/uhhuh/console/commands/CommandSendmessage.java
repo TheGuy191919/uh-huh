@@ -6,7 +6,7 @@
 package io.github.theguy191919.uhhuh.console.commands;
 
 import io.github.theguy191919.uhhuh.Uhhuh;
-import io.github.theguy191919.uhhuh.gui.GUIRoom;
+import io.github.theguy191919.uhhuh.gui.LanTab;
 
 /**
  * sendmessage roomname message
@@ -19,7 +19,7 @@ public class CommandSendmessage extends Command{
         if(super.getArgsList().size() < 2){
             Uhhuh.console.logger.log("Error, need args roomname message", this);
         } else {
-            ((GUIRoom)Uhhuh.guiChat.getTab(super.getArgsList().get(0))).sendMessage(super.getArgsList().get(1));
+            ((LanTab)Uhhuh.guiChat.getTab(super.getArgsList().get(0))).sendMessage(super.getArgsList().get(1));
             Uhhuh.console.logger.print("Message Sent");
         }
     }

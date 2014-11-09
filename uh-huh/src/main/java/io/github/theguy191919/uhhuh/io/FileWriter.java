@@ -51,6 +51,10 @@ public class FileWriter {
         this.fileLocation = fileLocation;
         this.file = new File(this.fileLocation);
         
+        if(!this.file.getParentFile().isDirectory()){
+            this.file.getParentFile().mkdirs();
+        }
+        
         if(!this.replaceFile){
             if(this.file.isFile()){
                 this.fileLocation = this.fileLocation + "-1";

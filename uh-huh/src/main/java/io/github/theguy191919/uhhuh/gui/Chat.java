@@ -7,7 +7,6 @@ package io.github.theguy191919.uhhuh.gui;
 
 import io.github.theguy191919.uhhuh.Uhhuh;
 import io.github.theguy191919.uhhuh.console.commands.Command;
-import io.github.theguy191919.uhhuh.console.commands.CommandStop;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -19,6 +18,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -26,7 +27,7 @@ import javax.swing.*;
  *
  * @author evan__000
  */
-public class GUIChat implements Runnable {
+public class Chat implements Runnable {
 
     private String userName = Uhhuh.options.getProperty("UserName");
     private boolean visiable = true;
@@ -43,19 +44,25 @@ public class GUIChat implements Runnable {
     private JMenuItem jMenuExitChat;
     private JMenuItem jMenuExitProgram;
     private JTabbedPane jTabbedPane;
-    private Map<JPanel, GUIPaneTab> mapOfTabs = new ConcurrentHashMap();
-    private GUIStart start;
+    private Map<JPanel, PaneTab> mapOfTabs = new ConcurrentHashMap();
+    private StartTab start;
 
-    public GUIChat() {
+    public Chat() {
 
         this.initFrame();
 
-        GUIRoom room = new GUIRoom("Death", this, "234.235.236.237");
+        //LanTab room = new LanTab("Death", this, "234.235.236.237");
         //jFrame.setVisible(true);
         //this.createRoom("Death");
     }
 
     public void initFrame() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         jFrame = new JFrame("Uh Huh");
         jFrame.setSize(800, 600);
         layout = new GroupLayout(jFrame.getContentPane());
@@ -221,41 +228,41 @@ public class GUIChat implements Runnable {
                 .addComponent(jTabbedPane, 0, jFrame.getHeight() - 80, Short.MAX_VALUE)
         );
 
-        start = new GUIStart(this);
+        start = new StartTab(this);
     }
 
     public JFrame getFrame() {
         return this.jFrame;
     }
 
-    public void createTab(GUIPaneTab tab) {
+    public void createTab(PaneTab tab) {
         this.mapOfTabs.put(tab.getTab(), tab);
         this.jTabbedPane.addTab(tab.getName(), tab.getTab());
         tab.tabAdded();
     }
 
-    public GUIPaneTab getTab(String name) {
+    public PaneTab getTab(String name) {
         return this.mapOfTabs.get((JPanel) this.jTabbedPane.getComponentAt(this.jTabbedPane.indexOfTab(name)));
     }
 
-    public List<GUIPaneTab> getListOfTabs() {
-        List<GUIPaneTab> listOfTab = new LinkedList<>(this.mapOfTabs.values());
+    public List<PaneTab> getListOfTabs() {
+        List<PaneTab> listOfTab = new LinkedList<>(this.mapOfTabs.values());
         return listOfTab;
     }
 
     public void removeCurrentTab() {
-        GUIPaneTab tab = this.mapOfTabs.get((JPanel) this.jTabbedPane.getComponentAt(this.jTabbedPane.getSelectedIndex()));
+        PaneTab tab = this.mapOfTabs.get((JPanel) this.jTabbedPane.getComponentAt(this.jTabbedPane.getSelectedIndex()));
         tab.tabRemoved();
     }
 
-    public void removeTab(GUIPaneTab tab) {
+    public void removeTab(PaneTab tab) {
         this.jTabbedPane.remove(tab.getTab());
         this.mapOfTabs.remove(tab.getTab());
         tab.tabRemoved();
     }
 
     public void removeTab(String name) {
-        GUIPaneTab tab = this.mapOfTabs.remove((JPanel) this.jTabbedPane.getComponentAt(this.jTabbedPane.indexOfTab(name)));
+        PaneTab tab = this.mapOfTabs.remove((JPanel) this.jTabbedPane.getComponentAt(this.jTabbedPane.indexOfTab(name)));
         tab.tabRemoved();
     }
 
@@ -273,7 +280,7 @@ public class GUIChat implements Runnable {
         ipSubAddress = ipSubAddress / roomName.getBytes().length;
         ipSubAddress = Math.abs(ipSubAddress);
         ip = ip + ipSubAddress;
-        GUIPaneTab tab = new GUIRoom(roomName, Uhhuh.guiChat, ip);
+        PaneTab tab = new LanTab(roomName, Uhhuh.guiChat, ip);
     }
     
     public void stop(){

@@ -6,8 +6,8 @@
 package io.github.theguy191919.uhhuh.console.commands;
 
 import io.github.theguy191919.uhhuh.Uhhuh;
-import io.github.theguy191919.uhhuh.gui.GUIPaneTab;
-import io.github.theguy191919.uhhuh.gui.GUIRoom;
+import io.github.theguy191919.uhhuh.gui.PaneTab;
+import io.github.theguy191919.uhhuh.gui.LanTab;
 
 /**
  * createroom name visiable(optional)
@@ -33,7 +33,7 @@ public class CommandCreateroom extends Command{
             ipSubAddress = Math.abs(ipSubAddress);
             ip = ip + ipSubAddress;
             Uhhuh.console.logger.print("Creating room " + super.getArgsList().get(0) + " with ip " + ip);
-            GUIPaneTab tab = new GUIRoom(super.getArgsList().get(0), Uhhuh.guiChat, ip);
+            PaneTab tab = new LanTab(super.getArgsList().get(0), Uhhuh.guiChat, ip);
             //Uhhuh.guiChat.createTab(tab);
         }
     }

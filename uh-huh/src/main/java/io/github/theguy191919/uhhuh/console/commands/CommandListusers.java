@@ -7,7 +7,7 @@ package io.github.theguy191919.uhhuh.console.commands;
 
 import io.github.theguy191919.uhhuh.Uhhuh;
 import io.github.theguy191919.uhhuh.gui.Contact;
-import io.github.theguy191919.uhhuh.gui.GUIRoom;
+import io.github.theguy191919.uhhuh.gui.LanTab;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ public class CommandListusers extends Command{
         if(super.getArgsList().size() < 1){
             Uhhuh.console.logger.log("Error, need args roomname", this);
         } else {
-            List<String> listOfNames = ((GUIRoom)Uhhuh.guiChat.getTab(super.getArgsList().get(0))).getContacts();
+            List<String> listOfNames = ((LanTab)Uhhuh.guiChat.getTab(super.getArgsList().get(0))).getContacts();
             Uhhuh.console.logger.print("---List Of Contacts in room " + super.getArgsList().get(0) + "---");
             for(String name : listOfNames){
                 Uhhuh.console.logger.print(name);

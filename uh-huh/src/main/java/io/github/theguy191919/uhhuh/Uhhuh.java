@@ -7,7 +7,7 @@
 package io.github.theguy191919.uhhuh;
 
 import io.github.theguy191919.uhhuh.console.Console;
-import io.github.theguy191919.uhhuh.gui.GUIChat;
+import io.github.theguy191919.uhhuh.gui.Chat;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Uhhuh {
     
     public static Options options = new Options();
     public static Console console = new Console();
-    public static GUIChat guiChat = new GUIChat();
+    public static Chat guiChat = new Chat();
     
     public static void main(String[] args){
         console.start();

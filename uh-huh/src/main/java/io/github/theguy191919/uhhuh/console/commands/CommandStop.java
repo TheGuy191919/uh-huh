@@ -6,7 +6,7 @@
 package io.github.theguy191919.uhhuh.console.commands;
 
 import io.github.theguy191919.uhhuh.Uhhuh;
-import io.github.theguy191919.uhhuh.gui.GUIPaneTab;
+import io.github.theguy191919.uhhuh.gui.PaneTab;
 
 /**
  * Name is stop
@@ -23,7 +23,7 @@ public class CommandStop extends Command{
 
     @Override
     void trigged() {
-        for(GUIPaneTab tab : Uhhuh.guiChat.getListOfTabs()){
+        for(PaneTab tab : Uhhuh.guiChat.getListOfTabs()){
             Uhhuh.guiChat.removeTab(tab);
         }
         Uhhuh.guiChat.stop();

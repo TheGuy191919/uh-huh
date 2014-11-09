@@ -6,8 +6,8 @@
 package io.github.theguy191919.uhhuh.console.commands;
 
 import io.github.theguy191919.uhhuh.Uhhuh;
-import io.github.theguy191919.uhhuh.gui.GUIPaneTab;
-import io.github.theguy191919.uhhuh.gui.GUIRoom;
+import io.github.theguy191919.uhhuh.gui.PaneTab;
+import io.github.theguy191919.uhhuh.gui.LanTab;
 
 /**
  * work in progress
@@ -24,7 +24,7 @@ public class CommandJoinroom extends Command{
             if(super.getArgsList().get(1) != null){
                 ip = super.getArgsList().get(1);
             }
-            GUIPaneTab tab = new GUIRoom(super.getArgsList().get(0), Uhhuh.guiChat, ip);
+            PaneTab tab = new LanTab(super.getArgsList().get(0), Uhhuh.guiChat, ip);
             Uhhuh.guiChat.createTab(tab);
         }
     }

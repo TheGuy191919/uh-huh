@@ -71,7 +71,7 @@ public class Options {
             this.writer = new FileWriter(this.fileLocation, true);
             this.properties.store(this.writer.getOutputStream(), "Properties For Uh huh");
             this.writer.getOutputStream().flush();
-            //this.writer.getOutputStream().close();
+            this.writer.getOutputStream().close();
         } catch (IOException ex) {
             Logger.getLogger(Options.class.getName()).log(Level.SEVERE, null, ex);
         }

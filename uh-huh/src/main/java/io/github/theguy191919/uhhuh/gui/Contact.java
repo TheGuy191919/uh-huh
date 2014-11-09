@@ -19,11 +19,11 @@ public class Contact implements Runnable{
     
     public Thread thread;
     public String contactName;
-    private GUIRoom parentRoom;
+    private LanTab parentRoom;
     private int lastPringTime = 0;
     private boolean running = false;
     
-    public Contact(String contactName, GUIRoom parentRoom){
+    public Contact(String contactName, LanTab parentRoom){
         this.contactName = contactName;
         this.parentRoom = parentRoom;
     }

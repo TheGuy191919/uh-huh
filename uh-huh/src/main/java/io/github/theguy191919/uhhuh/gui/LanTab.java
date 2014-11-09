@@ -20,7 +20,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +34,13 @@ import javax.swing.*;
  *
  * @author evan__000
  */
-public class GUIRoom implements Runnable, GUIPaneTab {
+public class LanTab implements Runnable, PaneTab {
 
     //http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
 
     public Thread thread;
     public String roomName;
-    private GUIChat parentChat;
+    private Chat parentChat;
     private ByteSender sender;
     private ByteReceiver receiver;
     private boolean visible = true;
@@ -58,18 +57,18 @@ public class GUIRoom implements Runnable, GUIPaneTab {
     private JTextArea jEnterArea;
     private JButton jButtonSend;
     
-    public GUIRoom(String roomName, GUIChat parentChat, String ip) {
+    public LanTab(String roomName, Chat parentChat, String ip) {
         this(roomName, parentChat, ip, true);
     }
     
-    public GUIRoom(String roomName, GUIChat parentChat, String ip, boolean visiable) {
+    public LanTab(String roomName, Chat parentChat, String ip, boolean visiable) {
         this.roomName = roomName;
         this.parentChat = parentChat;
         try {
             this.sender = new ByteSender(InetAddress.getByName(ip), 58394);
             this.receiver = new ByteReceiver(InetAddress.getByName(ip), 58394);
         } catch (UnknownHostException ex) {
-            Logger.getLogger(GUIRoom.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LanTab.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Protocol.getProtocolEventHandler().regesterListner(this);
         this.crypto.setPublicKey(this.roomName.hashCode());
@@ -116,14 +115,6 @@ public class GUIRoom implements Runnable, GUIPaneTab {
     
     public void stop() {
         this.running = false;
-//        Iterator iterator = this.mapOfContact.entrySet().iterator();
-//        while (iterator.hasNext()) {
-//            Map.Entry paires = (Map.Entry<String, Contact>) iterator.next();
-//            ((Contact) (paires.getValue())).stop();
-//            iterator.remove();
-//        }
-//        this.mapOfContact.clear();
-        //this.receiver.stopReveiver();
         for(Contact contact : this.mapOfContact.values()){
             contact.stop();
         }

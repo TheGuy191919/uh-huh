@@ -11,7 +11,7 @@ import javax.swing.*;
  *
  * @author evan__000
  */
-public interface GUIPaneTab {
+public interface PaneTab {
     JPanel getTab();
     String getName();
     void tabAdded();
