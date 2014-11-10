@@ -21,7 +21,7 @@ public class CommandJoinroom extends Command{
             Uhhuh.console.logger.log("Error, need args name", this);
         } else {
             String ip = "234.235.236.237";
-            if(super.getArgsList().get(1) != null){
+            if(super.getArgsList().get(0) != null){
                 ip = super.getArgsList().get(1);
             }
             PaneTab tab = new LanTab(super.getArgsList().get(0), Uhhuh.guiChat, ip);

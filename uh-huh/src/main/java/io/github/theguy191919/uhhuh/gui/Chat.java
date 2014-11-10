@@ -12,6 +12,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
@@ -120,26 +122,47 @@ public class Chat implements Runnable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JDialog dia = new JDialog(jFrame, "Create Room", true);
+                JLabel label = new JLabel("Name: ");
+                final JTextField field = new JTextField();
+                final JButton botton = new JButton("Create");
                 dia.getContentPane().setLayout(new BoxLayout(dia.getContentPane(), BoxLayout.LINE_AXIS));
                 dia.setSize(300, 130);
                 dia.setLocation((jFrame.getWidth() - dia.getWidth()) / 2, (jFrame.getHeight() - dia.getHeight()) / 2);
 
                 dia.add(Box.createRigidArea(new Dimension(10, 20)));
 
-                JLabel label = new JLabel("Name: ");
                 label.setAlignmentY(Component.CENTER_ALIGNMENT);
                 dia.add(label);
 
                 dia.add(Box.createRigidArea(new Dimension(10, 20)));
 
-                final JTextField field = new JTextField();
                 field.setMaximumSize(new Dimension(field.getMaximumSize().width, field.getPreferredSize().height));
                 field.setAlignmentY(Component.CENTER_ALIGNMENT);
+                field.addKeyListener(new KeyListener(){
+
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                            botton.doClick();
+                            e.consume();
+                        }
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                        
+                    }
+                    
+                });
                 dia.add(field);
 
                 dia.add(Box.createRigidArea(new Dimension(10, 20)));
 
-                JButton botton = new JButton("Create");
                 botton.setAlignmentY(Component.CENTER_ALIGNMENT);
                 botton.addActionListener(new ActionListener() {
                     @Override
@@ -160,26 +183,47 @@ public class Chat implements Runnable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JDialog dia = new JDialog(jFrame, "Join Room", true);
+                JLabel label = new JLabel("Name: ");
+                final JTextField field = new JTextField();
+                final JButton botton = new JButton("Create");
                 dia.getContentPane().setLayout(new BoxLayout(dia.getContentPane(), BoxLayout.LINE_AXIS));
                 dia.setSize(300, 130);
                 dia.setLocation((jFrame.getWidth() - dia.getWidth()) / 2, (jFrame.getHeight() - dia.getHeight()) / 2);
 
                 dia.add(Box.createRigidArea(new Dimension(10, 20)));
 
-                JLabel label = new JLabel("Name: ");
                 label.setAlignmentY(Component.CENTER_ALIGNMENT);
                 dia.add(label);
 
                 dia.add(Box.createRigidArea(new Dimension(10, 20)));
 
-                final JTextField field = new JTextField();
                 field.setMaximumSize(new Dimension(field.getMaximumSize().width, field.getPreferredSize().height));
                 field.setAlignmentY(Component.CENTER_ALIGNMENT);
-                dia.add(field);
+                field.addKeyListener(new KeyListener(){
 
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                            botton.doClick();
+                            e.consume();
+                        }
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                        
+                    }
+                    
+                });
+                dia.add(field);
+                
                 dia.add(Box.createRigidArea(new Dimension(10, 20)));
 
-                JButton botton = new JButton("Create");
                 botton.setAlignmentY(Component.CENTER_ALIGNMENT);
                 botton.addActionListener(new ActionListener() {
                     @Override
@@ -196,6 +240,67 @@ public class Chat implements Runnable {
             }
         });
         jMenuUhhuhOptions = new JMenuItem("Options");
+        jMenuUhhuhOptions.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog dia = new JDialog(jFrame, "Options", true);
+                JPanel namePanel = new JPanel();
+                JLabel nameLabel = new JLabel("Set Name: ");
+                JTextField nameField = new JTextField();
+                JButton nameButton = new JButton("Set");
+                JPanel cfgPanel = new JPanel();
+                JLabel cfgLabel = new JLabel("Set config Location: ");
+                JTextField cfgField = new JTextField();
+                JButton cfgBotton = new JButton("Set");
+                JPanel advPanel = new JPanel();
+                JLabel advLabel = new JLabel("Set Logging Level");
+                String[] logLevel = {"HIGH", "MEDIUM", "LOW", "DEBUG"};
+                JComboBox advBox = new JComboBox(logLevel);
+                JPanel botPanel = new JPanel();
+                JButton leavbotBotton = new JButton("Close");
+                
+                dia.setSize(300, 130);
+                dia.setLocation((jFrame.getWidth() - dia.getWidth()) / 2, (jFrame.getHeight() - dia.getHeight()) / 2);
+                dia.getContentPane().setLayout(new BoxLayout(dia.getContentPane(), BoxLayout.PAGE_AXIS));
+                
+                namePanel.setLayout(new BoxLayout(namePanel , BoxLayout.LINE_AXIS));
+                nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                namePanel.add(nameLabel);
+                nameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+                nameField.setMaximumSize(new Dimension(nameField.getMaximumSize().width, nameField.getPreferredSize().height));
+                nameField.setText(Uhhuh.guiChat.getUserName());
+                namePanel.add(nameField);
+                nameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                namePanel.add(nameButton);
+                dia.getContentPane().add(namePanel);
+                
+                cfgPanel.setLayout(new BoxLayout(cfgPanel, BoxLayout.LINE_AXIS));
+                cfgLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                cfgPanel.add(cfgLabel);
+                cfgField.setAlignmentX(Component.CENTER_ALIGNMENT);
+                cfgField.setMaximumSize(new Dimension(cfgField.getMaximumSize().width, cfgField.getPreferredSize().height));
+                cfgPanel.add(cfgField);
+                cfgBotton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                cfgPanel.add(cfgBotton);
+                dia.getContentPane().add(cfgPanel);
+                
+                advPanel.setLayout(new BoxLayout(advPanel, BoxLayout.LINE_AXIS));
+                advLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                advPanel.add(advLabel);
+                advBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+                advBox.setSelectedIndex(Uhhuh.console.logger.logLevel - 1);
+                advBox.setMaximumSize(new Dimension(advBox.getMaximumSize().width, advBox.getPreferredSize().height));
+                advPanel.add(advBox);
+                dia.getContentPane().add(advPanel);
+                
+                botPanel.setLayout(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
+                leavbotBotton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                botPanel.add(leavbotBotton);
+                dia.getContentPane().add(botPanel);
+                
+                dia.setVisible(true);
+            }
+        });
         jMenuUhhuh.add(jMenuUhhuhAbout);
         jMenuUhhuh.addSeparator();
         jMenuUhhuh.add(jMenuUhhuhCreateroom);
