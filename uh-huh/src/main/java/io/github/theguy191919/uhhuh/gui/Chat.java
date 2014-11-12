@@ -384,9 +384,23 @@ public class Chat implements Runnable {
         jMenuUhhuh.add(jMenuUhhuhOptions);
         jMenuBar.add(jMenuUhhuh);
         jMenuExit = new JMenu("Exit");
-        jMenuExitChat = new JMenuItem("Exit This Chat");
+        jMenuExitChat = new JMenuItem("Exit Current Chat");
+        jMenuExitChat.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeCurrentTab();
+            }
+        });
         jMenuExit.add(jMenuExitChat);
         jMenuExitProgram = new JMenuItem("Exit Uh huh");
+        jMenuExitProgram.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.dispose();
+            }
+        });
         jMenuExit.add(jMenuExitProgram);
         jMenuBar.add(jMenuExit);
 
@@ -432,7 +446,7 @@ public class Chat implements Runnable {
 
     public void removeCurrentTab() {
         PaneTab tab = this.mapOfTabs.get((JPanel) this.jTabbedPane.getComponentAt(this.jTabbedPane.getSelectedIndex()));
-        tab.tabRemoved();
+        removeTab(tab);
     }
 
     public void removeTab(PaneTab tab) {
