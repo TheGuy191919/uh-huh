@@ -9,10 +9,6 @@ import io.github.theguy191919.uhhuh.io.FileReader;
 import io.github.theguy191919.uhhuh.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +20,7 @@ import java.util.logging.Logger;
 public class Options {
     
     private Properties properties;
-    private String fileLocation = System.getProperty("user.dir") + File.separator + "config.properties";
+    private String fileLocation = Uhhuh.getcfgLocation() + File.separator + "config.properties";
     private FileReader reader;
     private FileWriter writer;
     //private Map<String, String> mapOfProperties = new LinkedHashMap<>();

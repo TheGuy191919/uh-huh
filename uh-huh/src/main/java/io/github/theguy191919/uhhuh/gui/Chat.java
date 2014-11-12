@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -243,19 +244,19 @@ public class Chat implements Runnable {
         jMenuUhhuhOptions.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog dia = new JDialog(jFrame, "Options", true);
+                final JDialog dia = new JDialog(jFrame, "Options", true);
                 JPanel namePanel = new JPanel();
                 JLabel nameLabel = new JLabel("Set Name: ");
-                JTextField nameField = new JTextField();
-                JButton nameButton = new JButton("Set");
+                final JTextField nameField = new JTextField();
+                final JButton nameButton = new JButton("Set");
                 JPanel cfgPanel = new JPanel();
                 JLabel cfgLabel = new JLabel("Set config Location: ");
-                JTextField cfgField = new JTextField();
-                JButton cfgBotton = new JButton("Set");
+                final JTextField cfgField = new JTextField();
+                final JButton cfgBotton = new JButton("Set");
                 JPanel advPanel = new JPanel();
                 JLabel advLabel = new JLabel("Set Logging Level");
                 String[] logLevel = {"HIGH", "MEDIUM", "LOW", "DEBUG"};
-                JComboBox advBox = new JComboBox(logLevel);
+                final JComboBox advBox = new JComboBox(logLevel);
                 JPanel botPanel = new JPanel();
                 JButton leavbotBotton = new JButton("Close");
                 
@@ -267,10 +268,37 @@ public class Chat implements Runnable {
                 nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 namePanel.add(nameLabel);
                 nameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+                nameField.addKeyListener(new KeyListener(){
+
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                            nameButton.doClick();
+                            e.consume();
+                        }
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                        
+                    }
+                });
                 nameField.setMaximumSize(new Dimension(nameField.getMaximumSize().width, nameField.getPreferredSize().height));
                 nameField.setText(Uhhuh.guiChat.getUserName());
                 namePanel.add(nameField);
                 nameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                nameButton.addActionListener(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Uhhuh.guiChat.setUserName(nameField.getText());
+                    }
+                });
                 namePanel.add(nameButton);
                 dia.getContentPane().add(namePanel);
                 
@@ -278,9 +306,40 @@ public class Chat implements Runnable {
                 cfgLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 cfgPanel.add(cfgLabel);
                 cfgField.setAlignmentX(Component.CENTER_ALIGNMENT);
+                cfgField.addKeyListener(new KeyListener(){
+
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                            cfgBotton.doClick();
+                            e.consume();
+                        }
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                        
+                    }
+                });
                 cfgField.setMaximumSize(new Dimension(cfgField.getMaximumSize().width, cfgField.getPreferredSize().height));
                 cfgPanel.add(cfgField);
                 cfgBotton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                cfgBotton.addActionListener(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String place = cfgField.getText();
+                        if(new File(place).isDirectory()){
+                            Uhhuh.setcfgLocation(place);
+                        }
+                        cfgField.setText(Uhhuh.getcfgLocation());
+                    }
+                });
                 cfgPanel.add(cfgBotton);
                 dia.getContentPane().add(cfgPanel);
                 
@@ -290,11 +349,27 @@ public class Chat implements Runnable {
                 advBox.setAlignmentX(Component.CENTER_ALIGNMENT);
                 advBox.setSelectedIndex(Uhhuh.console.logger.logLevel - 1);
                 advBox.setMaximumSize(new Dimension(advBox.getMaximumSize().width, advBox.getPreferredSize().height));
+                advBox.addActionListener(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Uhhuh.console.logger.setLogLevel(advBox.getSelectedIndex() + 1);
+                        advBox.setSelectedIndex(Uhhuh.console.logger.logLevel - 1);
+                        //Uhhuh.console.logger.log("The log level is chcanged", this, 4);
+                    }
+                });
                 advPanel.add(advBox);
                 dia.getContentPane().add(advPanel);
                 
                 botPanel.setLayout(new BoxLayout(botPanel, BoxLayout.LINE_AXIS));
                 leavbotBotton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                leavbotBotton.addActionListener(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        dia.dispose();
+                    }
+                });
                 botPanel.add(leavbotBotton);
                 dia.getContentPane().add(botPanel);
                 

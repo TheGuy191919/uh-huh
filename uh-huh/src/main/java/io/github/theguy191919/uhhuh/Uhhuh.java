@@ -15,9 +15,18 @@ import io.github.theguy191919.uhhuh.gui.Chat;
  */
 public class Uhhuh {
     
+    private static String cfgLocation = System.getProperty("user.dir");
     public static Options options = new Options();
     public static Console console = new Console();
     public static Chat guiChat = new Chat();
+    
+    public static String getcfgLocation(){
+        return cfgLocation;
+    }
+    
+    public static void setcfgLocation(String location){
+        cfgLocation = location;
+    }
     
     public static void main(String[] args){
         console.start();
