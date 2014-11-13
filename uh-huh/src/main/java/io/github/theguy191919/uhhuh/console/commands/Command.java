@@ -49,6 +49,7 @@ public abstract class Command {
             }
         }
         Command commandObj = null;
+        if(listOfCommands.containsKey(command.substring(spacepos.get(0) + 1, spacepos.get(1)).toLowerCase().trim())){
         try {
             commandObj = listOfCommands.get(command.substring(spacepos.get(0) + 1, spacepos.get(1)).toLowerCase().trim()).newInstance();
             //commandObj.setCommandName(command.substring(spacepos.get(0) + 1, spacepos.get(1)).trim());
@@ -60,6 +61,7 @@ public abstract class Command {
             
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Command.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
         return commandObj;
     }

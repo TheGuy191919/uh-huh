@@ -54,6 +54,7 @@ public class LanTab implements Runnable, PaneTab {
     private JTextArea jPanelChatArea;
     private JScrollPane jPaneUsers;
     private JList jListUsers;
+    private JScrollPane jScrollEnterArea;
     private JTextArea jEnterArea;
     private JButton jButtonSend;
     
@@ -173,7 +174,8 @@ public class LanTab implements Runnable, PaneTab {
             }
                 
         });
-        this.jPanel.add(jEnterArea);
+        this.jScrollEnterArea = new JScrollPane(jEnterArea);
+        this.jPanel.add(jScrollEnterArea);
         this.jButtonSend = new JButton("Send");
         this.jPanel.add(jButtonSend);
         
@@ -184,7 +186,7 @@ public class LanTab implements Runnable, PaneTab {
                         .addComponent(this.jScrollChatArea)
                         .addGroup(
                                 layout.createSequentialGroup()
-                                .addComponent(this.jEnterArea)
+                                .addComponent(this.jScrollEnterArea)
                                 .addComponent(this.jButtonSend)
                         )
                 ).addComponent(jPaneUsers, 200, 200, 200)
@@ -198,7 +200,7 @@ public class LanTab implements Runnable, PaneTab {
                                 .addComponent(this.jScrollChatArea)
                                 .addGroup(
                                         layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                        .addComponent(this.jEnterArea, 24, 32, 48)
+                                        .addComponent(this.jScrollEnterArea, 24, 32, 48)
                                         .addComponent(this.jButtonSend)
                                 )
                         )
