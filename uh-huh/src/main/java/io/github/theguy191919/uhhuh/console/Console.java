@@ -20,7 +20,7 @@ import java.util.logging.Level;
  */
 public class Console implements Runnable{
     
-   public Logger logger = new Logger(4);
+   public Logger logger = new Logger(1);
    private Thread thread;
    private Scanner scanner = new Scanner(System.in);
    private boolean running = false;

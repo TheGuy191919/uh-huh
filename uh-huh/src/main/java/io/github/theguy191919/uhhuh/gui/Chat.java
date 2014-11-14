@@ -9,6 +9,7 @@ import io.github.theguy191919.uhhuh.Uhhuh;
 import io.github.theguy191919.uhhuh.console.commands.Command;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -104,8 +109,11 @@ public class Chat implements Runnable {
                 dia.getContentPane().add(label, BorderLayout.CENTER);
 
                 dia.add(Box.createRigidArea(new Dimension(10, 20)));
-
+                
+                JPanel panel = new JPanel();
+                panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
                 JButton button = new JButton("Close");
+                JButton emailButton = new JButton("Email Me");
                 button.setAlignmentX(Component.CENTER_ALIGNMENT);
                 button.addActionListener(new ActionListener() {
                     @Override
@@ -113,7 +121,24 @@ public class Chat implements Runnable {
                         dia.dispose();
                     }
                 });
-                dia.getContentPane().add(button, BorderLayout.CENTER);
+                panel.add(button);
+                
+                panel.add(Box.createRigidArea(new Dimension(10, 20)));
+                
+                emailButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                emailButton.addActionListener(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            Desktop.getDesktop().browse(new URI("mailto:evan_1998@sina.com"));
+                        } catch (IOException | URISyntaxException ex) {
+                            Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+                panel.add(emailButton);
+                dia.getContentPane().add(panel, BorderLayout.CENTER);
                 dia.setVisible(true);
 
             }
@@ -249,6 +274,9 @@ public class Chat implements Runnable {
                 JLabel nameLabel = new JLabel("Set Name: ");
                 final JTextField nameField = new JTextField();
                 final JButton nameButton = new JButton("Set");
+                JPanel checkPanel = new JPanel();
+                JLabel checkLabel = new JLabel("Enable advanced options (Use with caution) ");
+                final JCheckBox checkCheckBox = new JCheckBox();
                 JPanel cfgPanel = new JPanel();
                 JLabel cfgLabel = new JLabel("Set config Location: ");
                 final JTextField cfgField = new JTextField();
@@ -260,7 +288,7 @@ public class Chat implements Runnable {
                 JPanel botPanel = new JPanel();
                 JButton leavbotBotton = new JButton("Close");
                 
-                dia.setSize(300, 130);
+                dia.setSize(300, 150);
                 dia.setLocation((jFrame.getWidth() - dia.getWidth()) / 2, (jFrame.getHeight() - dia.getHeight()) / 2);
                 dia.getContentPane().setLayout(new BoxLayout(dia.getContentPane(), BoxLayout.PAGE_AXIS));
                 
@@ -297,10 +325,33 @@ public class Chat implements Runnable {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Uhhuh.guiChat.setUserName(nameField.getText());
+                        nameField.setText(Uhhuh.guiChat.getUserName());
                     }
                 });
                 namePanel.add(nameButton);
                 dia.getContentPane().add(namePanel);
+                
+                checkPanel.setLayout(new BoxLayout(checkPanel , BoxLayout.LINE_AXIS));
+                checkLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                checkPanel.add(checkLabel);
+                checkCheckBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+                checkCheckBox.addActionListener(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if(checkCheckBox.isSelected()){
+                            cfgField.setEnabled(true);
+                            cfgBotton.setEnabled(true);
+                            advBox.setEnabled(true);
+                        } else {
+                            cfgField.setEnabled(false);
+                            cfgBotton.setEnabled(false);
+                            advBox.setEnabled(false);
+                        }
+                    }
+                });
+                checkPanel.add(checkCheckBox);
+                dia.getContentPane().add(checkPanel);
                 
                 cfgPanel.setLayout(new BoxLayout(cfgPanel, BoxLayout.LINE_AXIS));
                 cfgLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -327,6 +378,7 @@ public class Chat implements Runnable {
                     }
                 });
                 cfgField.setMaximumSize(new Dimension(cfgField.getMaximumSize().width, cfgField.getPreferredSize().height));
+                cfgField.setEnabled(false);
                 cfgPanel.add(cfgField);
                 cfgBotton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 cfgBotton.addActionListener(new ActionListener(){
@@ -340,6 +392,7 @@ public class Chat implements Runnable {
                         cfgField.setText(Uhhuh.getcfgLocation());
                     }
                 });
+                cfgBotton.setEnabled(false);
                 cfgPanel.add(cfgBotton);
                 dia.getContentPane().add(cfgPanel);
                 
@@ -358,6 +411,7 @@ public class Chat implements Runnable {
                         //Uhhuh.console.logger.log("The log level is chcanged", this, 4);
                     }
                 });
+                advBox.setEnabled(false);
                 advPanel.add(advBox);
                 dia.getContentPane().add(advPanel);
                 
