@@ -5,6 +5,7 @@
  */
 package io.github.theguy191919.uhhuh.console;
 
+import io.github.theguy191919.uhhuh.Uhhuh;
 import io.github.theguy191919.uhhuh.console.commands.Command;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,7 +52,10 @@ public class Console implements Runnable{
                 }
             } while("".equals(input) && running);
             if(running){
-                Command.getCommand(input);
+                Command command = Command.getCommand(input);
+                if(command == null){
+                    Uhhuh.console.logger.log("Command not Found", this);
+                }
             }
         }
     }
