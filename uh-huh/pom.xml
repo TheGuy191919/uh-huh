@@ -26,7 +26,8 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>UDPFT</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.0</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <properties>

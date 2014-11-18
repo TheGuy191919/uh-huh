@@ -35,9 +35,7 @@ import javax.swing.*;
  * @author evan__000
  */
 public class LanTab implements Runnable, PaneTab {
-
-    //http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
-
+    
     public Thread thread;
     public String roomName;
     private Chat parentChat;
@@ -145,6 +143,8 @@ public class LanTab implements Runnable, PaneTab {
         layout.setAutoCreateGaps(true);
         
         this.jPanelChatArea = new JTextArea();
+        this.jPanelChatArea.setLineWrap(true);
+        this.jPanelChatArea.setWrapStyleWord(true);
         this.jPanelChatArea.setEditable(false);
         this.jPanelChatArea.append("Welcome to " + this.roomName + ". Enjoy your stay.");
         this.jScrollChatArea = new JScrollPane(this.jPanelChatArea);
@@ -153,6 +153,8 @@ public class LanTab implements Runnable, PaneTab {
         this.jPaneUsers = new JScrollPane(this.jListUsers);
         this.jPanel.add(jPaneUsers);
         this.jEnterArea = new JTextArea();
+        this.jEnterArea.setLineWrap(true);
+        this.jEnterArea.setWrapStyleWord(true);
         this.jEnterArea.addKeyListener(new KeyListener(){
 
             @Override
@@ -221,8 +223,9 @@ public class LanTab implements Runnable, PaneTab {
     
     public void gotMessage(String sender, String message) {
         this.jPanelChatArea.append("\n" + "[" + sender + "] " + message);
-        this.jScrollChatArea.getVerticalScrollBar().validate();
-        this.jScrollChatArea.getVerticalScrollBar().setValue(this.jScrollChatArea.getVerticalScrollBar().getMaximum());
+        //this.jScrollChatArea.getVerticalScrollBar().validate();
+        this.jPanelChatArea.setCaretPosition(this.jPanelChatArea.getDocument().getLength());
+        //this.jScrollChatArea.getVerticalScrollBar().setValue(this.jScrollChatArea.getVerticalScrollBar().getMaximum());
         Uhhuh.console.logger.print("[" + this.roomName + "] " + "[" + sender + "] " + message);
     }
     
