@@ -35,7 +35,7 @@ import javax.swing.*;
  * @author evan__000
  */
 public class LanTab implements Runnable, PaneTab {
-    
+
     public Thread thread;
     public String roomName;
     private Chat parentChat;
@@ -45,7 +45,7 @@ public class LanTab implements Runnable, PaneTab {
     private Map<String, Contact> mapOfContact = new ConcurrentHashMap<>();
     private boolean running;
     private AbstractCrypto crypto = new SimpleCrypto();
-    
+
     private GroupLayout layout;
     private JPanel jPanel = new JPanel();
     private JScrollPane jScrollChatArea;
@@ -55,11 +55,11 @@ public class LanTab implements Runnable, PaneTab {
     private JScrollPane jScrollEnterArea;
     private JTextArea jEnterArea;
     private JButton jButtonSend;
-    
+
     public LanTab(String roomName, Chat parentChat, String ip) {
         this(roomName, parentChat, ip, true);
     }
-    
+
     public LanTab(String roomName, Chat parentChat, String ip, boolean visiable) {
         this.roomName = roomName;
         this.parentChat = parentChat;
@@ -73,13 +73,13 @@ public class LanTab implements Runnable, PaneTab {
         this.crypto.setPublicKey(this.roomName.hashCode());
         this.sender.setCrypto(crypto);
         this.receiver.setCrypto(crypto);
-        this.receiver.addListener(new ProtocolEventListener(){
+        this.receiver.addListener(new ProtocolEventListener() {
 
             @Override
             public void gotEvent(Protocol protocol) {
                 protocolEvent(protocol);
             }
-            
+
         });
         if (visiable) {
             this.initTab();
@@ -87,7 +87,7 @@ public class LanTab implements Runnable, PaneTab {
         }
         this.start();
     }
-    
+
     public void start() {
         this.sender.joinGroup();
         this.receiver.startReceiver();
@@ -95,7 +95,7 @@ public class LanTab implements Runnable, PaneTab {
         this.thread = new Thread(this, "GUIRoom " + this.roomName);
         this.thread.start();
     }
-    
+
     @Override
     public void run() {
         //every 30 second sent a message
@@ -111,17 +111,17 @@ public class LanTab implements Runnable, PaneTab {
             }
         }
     }
-    
+
     public void stop() {
         this.running = false;
-        for(Contact contact : this.mapOfContact.values()){
+        for (Contact contact : this.mapOfContact.values()) {
             contact.stop();
         }
         this.thread.interrupt();
         this.receiver.stopReveiver();
         this.thread = null;
     }
-    
+
     public void protocolEvent(Protocol protocol) {
         if (protocol.getProtocolNumber() == 0) {
             this.gotMessage(protocol.getSender(), protocol.getContent());
@@ -134,14 +134,14 @@ public class LanTab implements Runnable, PaneTab {
             }
         }
     }
-    
+
     private void initTab() {
         this.layout = new GroupLayout(this.jPanel);
         this.jPanel.setLayout(layout);
-        
+
         layout.setAutoCreateContainerGaps(true);
         layout.setAutoCreateGaps(true);
-        
+
         this.jPanelChatArea = new JTextArea();
         this.jPanelChatArea.setLineWrap(true);
         this.jPanelChatArea.setWrapStyleWord(true);
@@ -155,16 +155,16 @@ public class LanTab implements Runnable, PaneTab {
         this.jEnterArea = new JTextArea();
         this.jEnterArea.setLineWrap(true);
         this.jEnterArea.setWrapStyleWord(true);
-        this.jEnterArea.addKeyListener(new KeyListener(){
+        this.jEnterArea.addKeyListener(new KeyListener() {
 
             @Override
             public void keyTyped(KeyEvent e) {
-                
+
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     jButtonSend.doClick();
                     e.consume();
                 }
@@ -172,15 +172,15 @@ public class LanTab implements Runnable, PaneTab {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                
+
             }
-                
+
         });
         this.jScrollEnterArea = new JScrollPane(jEnterArea);
         this.jPanel.add(jScrollEnterArea);
         this.jButtonSend = new JButton("Send");
         this.jPanel.add(jButtonSend);
-        
+
         this.layout.setHorizontalGroup(
                 layout.createSequentialGroup()
                 .addGroup(
@@ -209,18 +209,18 @@ public class LanTab implements Runnable, PaneTab {
                         .addComponent(this.jPaneUsers)
                 )
         );
-        this.jButtonSend.addActionListener(new ActionListener(){
+        this.jButtonSend.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 sendMessage();
             }
         });
     }
-    
+
     public void removeTab() {
-        
+
     }
-    
+
     public void gotMessage(String sender, String message) {
         this.jPanelChatArea.append("\n" + "[" + sender + "] " + message);
         //this.jScrollChatArea.getVerticalScrollBar().validate();
@@ -228,23 +228,27 @@ public class LanTab implements Runnable, PaneTab {
         //this.jScrollChatArea.getVerticalScrollBar().setValue(this.jScrollChatArea.getVerticalScrollBar().getMaximum());
         Uhhuh.console.logger.print("[" + this.roomName + "] " + "[" + sender + "] " + message);
     }
-    
+
     public void sendMessage() {
-        Protocol pro = new Protocol0();
-        pro.setContent(jEnterArea.getText());
-        pro.setRecipient("none");
-        pro.setSender(Uhhuh.guiChat.getUserName());
-        sender.send(pro.returnByteArray());
-        jEnterArea.setText("");
+        if (!jEnterArea.getText().trim().equals("")) {
+            Protocol pro = new Protocol0();
+            pro.setContent(jEnterArea.getText().trim());
+            pro.setRecipient("none");
+            pro.setSender(Uhhuh.guiChat.getUserName());
+            sender.send(pro.returnByteArray());
+            jEnterArea.setText("");
+        }
     }
 
     public void sendMessage(String message) {
-        Protocol pro = new Protocol0();
-        pro.setContent(message);
-        pro.setRecipient("none");
-        pro.setSender(Uhhuh.guiChat.getUserName());
-        sender.send(pro.returnByteArray());
-        jEnterArea.setText("");
+        if (!message.trim().equals("")) {
+            Protocol pro = new Protocol0();
+            pro.setContent(message.trim());
+            pro.setRecipient("none");
+            pro.setSender(Uhhuh.guiChat.getUserName());
+            sender.send(pro.returnByteArray());
+            jEnterArea.setText("");
+        }
     }
 
     public void addContact(Contact contact) {
@@ -252,36 +256,36 @@ public class LanTab implements Runnable, PaneTab {
         this.refreshContactList();
         contact.start();
     }
-    
+
     public void removeContact(Contact contact) {
         this.mapOfContact.remove(contact.contactName);
         this.refreshContactList();
         contact.stop();
     }
-    
-    private void refreshContactList(){
+
+    private void refreshContactList() {
         this.jListUsers.setListData(new LinkedList<>(this.mapOfContact.values()).toArray());
     }
-    
-    public List<String> getContacts(){
+
+    public List<String> getContacts() {
         return new LinkedList<String>(this.mapOfContact.keySet());
     }
-    
+
     @Override
     public JPanel getTab() {
         return this.jPanel;
     }
-    
+
     @Override
     public String getName() {
         return this.roomName;
     }
-    
+
     @Override
     public void tabAdded() {
         //this.initTab();
     }
-    
+
     @Override
     public void tabRemoved() {
 //        this.receiver.stopReveiver();
@@ -290,5 +294,5 @@ public class LanTab implements Runnable, PaneTab {
 //        }
         this.stop();
     }
-    
+
 }

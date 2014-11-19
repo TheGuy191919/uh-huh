@@ -21,7 +21,7 @@ import java.util.logging.Level;
  */
 public class Console implements Runnable{
     
-   public Logger logger = new Logger(1);
+   public Logger logger = new Logger(Integer.valueOf(Uhhuh.options.getProperty("LogLevel", "3")));
    private Thread thread;
    private Scanner scanner = new Scanner(System.in);
    private boolean running = false;

@@ -55,6 +55,17 @@ public class Options {
         return this.properties.getProperty(property);
     }
     
+    public String getProperty(String property, String defaultValue){
+        if(!this.properties.containsKey(property)){
+            this.properties.put(property, defaultValue);
+        }
+        return this.properties.getProperty(property);
+    }
+    
+    public boolean haveProperty(String property){
+        return this.properties.containsKey(property);
+    }
+    
     public void setProperty(String property, String value){
         //this.mapOfProperties.put(property, value);
         this.properties.setProperty(property, value);

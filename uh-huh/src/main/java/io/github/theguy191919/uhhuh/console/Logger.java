@@ -26,13 +26,13 @@ public class Logger {
     //3 logs all
     //2 logs serious
     //1 logs error only
-    public int logLevel = 3;
+    public int logLevel;
     private String[] levelName = {
         "HOW", "HIGH", "MEDIUM", "LOW", "DEBUG"
     };
     
     public Logger(){
-        
+        this.logLevel = 3;
     }
     
     public Logger(int logLevel){
@@ -41,6 +41,7 @@ public class Logger {
     
     public void setLogLevel(int logLevel){
         this.logLevel = logLevel;
+        Uhhuh.options.setProperty("LogLevel", logLevel + "");
     }
     
     private String getFormatedTime(){
