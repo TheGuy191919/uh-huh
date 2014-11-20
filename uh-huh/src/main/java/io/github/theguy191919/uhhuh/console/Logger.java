@@ -20,7 +20,7 @@ import java.util.logging.Level;
  */
 public class Logger {
     
-    private String fileLocation = Uhhuh.getcfgLocation() +File.separator + "logs" + File.separator + "log" + this.getFormatedTime("yyyyMMddHHmmss") + ".log";
+    private String fileLocation = Uhhuh.getcfgLocation() + File.separator + "logs" + File.separator + "log" + this.getFormatedTime("yyyyMMddHHmmss") + ".log";
     private FileWriter writer = new FileWriter(fileLocation, false);
     
     //3 logs all

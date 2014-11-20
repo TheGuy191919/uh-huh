@@ -7,6 +7,7 @@ package io.github.theguy191919.uhhuh.gui;
 
 import io.github.theguy191919.uhhuh.Uhhuh;
 import io.github.theguy191919.uhhuh.console.commands.Command;
+import io.github.theguy191919.uhhuh.io.FileReader;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Desktop;
@@ -27,6 +28,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -70,8 +72,15 @@ public class Chat implements Runnable {
             Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        FileReader iconReader = new FileReader(Uhhuh.getcfgLocation() + File.separator + "resources" + File.separator + "Icon.png");
+        
         jFrame = new JFrame("Uh Huh");
         jFrame.setSize(800, 600);
+        try {
+            jFrame.setIconImage(ImageIO.read(iconReader.getInputStream()));
+        } catch (IOException ex) {
+            Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+        }
         layout = new GroupLayout(jFrame.getContentPane());
         jFrame.getContentPane().setLayout(layout);
         jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
